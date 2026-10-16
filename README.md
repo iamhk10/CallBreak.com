@@ -51,7 +51,7 @@ A lightweight, offline-first, single-file digital scorecard web application for 
 
 Because the entire application is self-contained in a single file, no build tools or installations are required.
 
-1. Download `Callbreak_Scorecard_v8.html`.
+1. Download 'callbreak.com'
 2. Open the file directly in any modern desktop or mobile web browser (Chrome, Safari, Firefox, Edge).
 3. *(Optional)* On mobile devices, use **"Add to Home Screen"** from your browser menu for a full-screen, app-like offline experience.
 
@@ -59,10 +59,10 @@ Because the entire application is self-contained in a single file, no build tool
 
 ## 🛠️ Technical Stack
 
-* **Architecture:** Single-file SPA (`Callbreak_Scorecard_v8.html`) with zero external dependencies.
+* **Architecture:** Single-file SPA (`callbreak.com`) with zero external dependencies.
 * **Markup & Styling:** Semantic HTML5, CSS Custom Properties (CSS Variables), CSS Grid/Flexbox, keyframe animations, and `prefers-reduced-motion` accessibility support.
 * **JavaScript & Web APIs:**
-  * `localStorage` (state persistence under key `callbreak_com_v6`)
+  * `localStorage` (state persistence under key `callbreak.com`)
   * HTML5 `<canvas>` API (dynamic JPG result card rendering)
   * `AudioContext` / Web Audio API (synthesized victory sound effects)
   * `navigator.wakeLock` (prevents screen dimming)
