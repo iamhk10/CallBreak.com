@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0d">
+<title>ΣTΣЯПITY</title>
+<style>
+:root{--bg:#0a0a0d;--card:#15151b;--card2:#1e1e26;--text:#f4f4f6;--mut:#9b9ba8;--acc:#e50914;--grad:linear-gradient(135deg,#e50914,#ff4d4d);--onacc:#fff;--bd:rgba(255,255,255,.09);--good:#2ecc71;--bad:#ff5a5f;--r:18px;--solid:#15151b;--bf:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;font-family:Inter,"SF Pro Display",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--card)}
+#bg{position:fixed;inset:0;background:var(--bg);z-index:-1}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;touch-action:manipulation}
+input{font:inherit;color:inherit}
+.hidden{display:none!important}
+header#top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));background:var(--card);border-bottom:1px solid var(--bd)}
+.brand{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;font-weight:800;font-size:21px;letter-spacing:-.02em;white-space:nowrap}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand span{color:var(--mut);font-weight:600}
+.timer{display:flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;padding:8px 12px;border-radius:999px;background:var(--card2);border:1px solid var(--bd);color:var(--text)}.timer svg{width:12px;height:12px;fill:currentColor;display:block}.timer.paused{color:var(--acc);border-color:var(--acc);animation:blink 1.4s ease-in-out infinite}.timer[disabled]{pointer-events:none}@keyframes blink{50%{opacity:.55}}
+.icon-btn{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--card2);border:1px solid var(--bd);transition:transform .15s}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:22px;height:22px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+main{max-width:760px;margin:0 auto;padding:16px 14px 90px}
+.view.enter{animation:vin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{font-size:30px;margin:6px 0 4px;letter-spacing:-.03em}
+.sub{color:var(--mut);margin:0 0 16px;font-size:14px;line-height:1.45}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row.c{justify-content:center}
+.btn{background:var(--grad);color:var(--onacc);font-weight:700;padding:11px 18px;border-radius:12px;transition:transform .15s,filter .2s}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--bd)}
+.btn.sm{padding:8px 12px;font-size:13px}
+.btn.wide{width:100%;padding:15px;font-size:16px;margin-top:6px}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.backrow{margin-bottom:8px}
+.ct{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+.note{color:var(--mut);font-size:12.5px;margin:8px 0 0;line-height:1.45}
+.prow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pn{width:26px;height:26px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--mut)}
+.inp{flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card2);outline:none;font-size:16px;transition:border-color .2s}
+.inp:focus{border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 14px;border-radius:999px;background:var(--card2);border:1px solid var(--bd);font-weight:600;font-size:14px;transition:.15s}
+.chip.on{background:var(--grad);color:var(--onacc);border-color:transparent}
+.rules3{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--bd);display:flex;flex-direction:column;gap:2px;transition:.15s}
+.opt span{font-size:12.5px;color:var(--mut)}
+.opt.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.minlist{margin-top:10px;display:grid;gap:8px}
+.mrow{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border-radius:12px;padding:8px 12px}
+.mini{display:flex;align-items:center;gap:12px}
+.mini button{width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--bd);font-size:18px;font-weight:700}
+.mini b{min-width:24px;text-align:center;font-size:18px}
+.lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:2px}
+.rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.rno{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.rno small{font-size:15px;color:var(--mut);font-weight:600}
+.dots{display:flex;gap:6px;margin-top:6px}
+.dots i{width:22px;height:5px;border-radius:3px;background:var(--card2)}
+.dots i.d{background:var(--grad)}
+.dots i.a{background:var(--acc);opacity:.55}
+.pills{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.rulepill{font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;background:var(--card2);border:1px solid var(--bd);white-space:nowrap}
+.dl{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dl b{font-size:17px}
+.arrow{color:var(--acc);font-size:22px;font-weight:800}
+.score{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.sc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 6px;text-align:center;min-width:0}
+.sc span{display:block;font-size:12px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc b{font-size:19px;font-variant-numeric:tabular-nums}
+.sc.lead{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.sc.lead span::before{content:"\265B ";color:var(--acc)}
+.ptitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.ptitle span{font-size:13px;color:var(--mut);font-weight:600;text-align:right}
+.ptitle span.ok,.ok{color:var(--good)!important}
+.bad{color:var(--bad)!important}
+.trump{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tb{padding:10px 0 8px;border-radius:14px;background:var(--card2);border:2px solid var(--bd);font-size:32px;line-height:1;transition:.15s}
+.tb small{display:block;font-size:11px;color:var(--mut);margin-top:5px;font-weight:600}
+.tb.red{color:#ee4558}
+.tb.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset;transform:translateY(-2px)}
+.tb:active{transform:scale(.94)}
+.red{color:#ee4558}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pc{background:var(--card2);border:1px solid var(--bd);border-radius:16px;padding:12px 8px;text-align:center;min-width:0}
+.pc.dealer{border-color:var(--acc)}
+.pn2{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pn2 em{font-style:normal;font-size:10px;margin-left:6px;padding:2px 6px;border-radius:6px;background:var(--grad);color:var(--onacc)}
+.minl{font-size:11px;color:var(--mut);margin:2px 0}
+.bidchip{font-size:12px;color:var(--mut);margin:2px 0}
+.bidchip b{font-size:28px;color:var(--text);margin-left:4px;font-variant-numeric:tabular-nums}
+.stp{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:6px}.stp .big{min-width:0;flex:1}
+.stp button{width:38px;height:38px;flex:none;border-radius:12px;background:var(--card);border:1px solid var(--bd);font-size:22px;font-weight:700;transition:transform .12s}
+.stp button:active{transform:scale(.88)}
+.big{font-size:56px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.04em;min-width:56px;text-align:center}
+.bump{animation:bump .22s ease}
+@keyframes bump{50%{transform:scale(1.25)}}
+.proj{font-size:12px;color:var(--mut);margin-top:8px}
+.proj b{font-size:14px}
+.acts{display:flex;gap:10px;margin:14px 0}
+.acts .btn{flex:1}
+.tw{overflow-x:auto;border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 3px;text-align:center;border-bottom:1px solid var(--bd)}
+th{color:var(--mut);font-weight:600;font-size:12px;white-space:nowrap}
+td.r{color:var(--mut);font-weight:700;white-space:nowrap}
+td.r i{font-style:normal;font-size:16px;margin-left:3px}
+.cbid{font-size:24px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.csub{font-size:11px;color:var(--mut);margin-top:2px;white-space:nowrap}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+tfoot td{font-weight:800;font-size:15px;border-bottom:0}
+.go{text-align:center}
+.go h2{margin:4px 0}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+#drawer{position:fixed;top:0;bottom:0;left:0;width:min(300px,84vw);background:var(--card);border-right:1px solid var(--bd);z-index:50;transform:translateX(-102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);padding:calc(20px + env(safe-area-inset-top)) 14px 20px;display:flex;flex-direction:column;gap:6px}
+body.menu #drawer{transform:none}
+body.menu #scrim{opacity:1;pointer-events:auto}
+#drawer .dh{margin-bottom:12px}
+#drawer .dh p{margin:4px 0 0;color:var(--mut);font-size:13px}
+#drawer button{text-align:left;padding:13px 14px;border-radius:12px;font-weight:600;font-size:15px;background:var(--card2);border:1px solid var(--bd)}
+#drawer button:active{transform:scale(.97)}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s}
+.modal.on{opacity:1;pointer-events:auto}
+.sheet{width:100%;max-width:640px;max-height:88vh;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:22px 22px 0 0;padding:18px 18px 28px;transform:translateY(30px);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.modal.on .sheet{transform:none}
+@media(min-width:700px){.modal{align-items:center}.sheet{border-radius:22px}}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sh h2{margin:0;font-size:22px;letter-spacing:-.02em}
+.sheet p,.sheet li{font-size:14px;line-height:1.55;color:var(--text)}
+.sheet ul{padding-left:20px;margin:6px 0}
+.sheet details{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:10px 14px;margin-bottom:8px}
+.sheet summary{font-weight:700;cursor:pointer}
+.sheet .mut{color:var(--mut)}
+.ex{width:100%;margin:8px 0;font-size:13px}
+.ex td,.ex th{padding:6px;border-bottom:1px solid var(--bd)}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.tm{border-radius:14px;border:2px solid var(--bd);overflow:hidden;text-align:left;background:var(--card2);transition:transform .15s}
+.tm:active{transform:scale(.96)}
+.tm.on{border-color:var(--acc)}
+.tm .pv{height:54px;display:flex;align-items:flex-end;padding:6px}
+.tm .pv i{display:block;height:12px;width:60%;border-radius:6px}
+.tm span{display:block;padding:7px 9px;font-size:13px;font-weight:700}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--card2);border:1px solid var(--bd);padding:11px 16px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:90;max-width:90vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#toast.err{border-color:var(--bad)}
+#win{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .3s;overflow:hidden}
+#win.on{opacity:1}
+.winbox{width:100%;max-width:400px;background:var(--card);border:1px solid var(--bd);border-radius:24px;padding:14px 18px 20px;text-align:center;max-height:94vh;overflow:auto}
+.stage{height:215px;overflow:hidden;position:relative}.victory-flag{position:absolute;inset:8px 4% auto;height:82px;width:92%;opacity:.92;filter:drop-shadow(0 10px 14px rgba(0,0,0,.18));animation:flagFloat 3.2s ease-in-out infinite alternate}.victory-flag .cloth{transform-origin:50% 50%;animation:flagWave 1.8s ease-in-out infinite alternate}@keyframes flagFloat{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(5px) rotate(1deg)}}@keyframes flagWave{from{transform:skewY(-2deg) scaleX(.98)}to{transform:skewY(2deg) scaleX(1.02)}}
+.wt{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.wn{font-size:30px;font-weight:800;letter-spacing:-.03em;margin:2px 0 10px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wl{list-style:none;padding:0;margin:0 0 14px;text-align:left}
+.wl li{display:flex;justify-content:space-between;padding:8px 12px;border-radius:10px;background:var(--card2);margin-bottom:6px;font-size:14px}
+.cf{position:absolute;top:-16px;width:8px;height:14px;border-radius:2px;animation:fall 2.8s linear forwards;z-index:101;pointer-events:none}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:.9}}
+.walker{display:block;margin:0 auto;animation:walkin 2.5s cubic-bezier(.3,.7,.4,1) forwards}
+@keyframes walkin{from{transform:translateX(calc(-50vw - 120px))}to{transform:none}}
+.walker .leg line{stroke:#2a2f4d;stroke-width:12;stroke-linecap:round}
+.walker .leg ellipse{fill:#111}
+.walker .arm line{stroke:var(--acc);stroke-width:11;stroke-linecap:round}
+.walker .arm circle{fill:#f5c9a0}
+.walker .torso{fill:var(--acc)}
+.walker .head{fill:#f5c9a0}
+.walker .eye{fill:#222}
+.walker .smile{fill:none;stroke:#222;stroke-width:3;stroke-linecap:round}
+.walker .sign rect{fill:var(--acc);stroke:#fff;stroke-width:2.5}
+.walker .sign text{fill:var(--onacc);font:800 19px system-ui,sans-serif;letter-spacing:.5px}
+.walker .fig{animation:bob .36s ease-in-out infinite alternate}
+.walker .leg.l{transform-origin:50px 140px;animation:swL .36s ease-in-out infinite alternate}
+.walker .leg.r{transform-origin:70px 140px;animation:swR .36s ease-in-out infinite alternate}
+.walker .arm.l{transform-origin:40px 98px;animation:swR .36s ease-in-out infinite alternate}
+.walker .arm.r{transform-origin:80px 98px;animation:swL .36s ease-in-out infinite alternate}
+@keyframes swL{from{transform:rotate(26deg)}to{transform:rotate(-26deg)}}
+@keyframes swR{from{transform:rotate(-26deg)}to{transform:rotate(26deg)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+@keyframes hop{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+.arrived .walker .fig{animation:hop .5s ease-in-out infinite alternate}
+.arrived .walker .leg,.arrived .walker .arm{animation:none}
+.arrived .walker .arm.l{transform:rotate(150deg);transition:transform .3s}
+.arrived .walker .arm.r{transform:rotate(-150deg);transition:transform .3s}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+/* ΣTΣЯПITY live-play card motion */
+.playing-cards{height:94px;position:relative;display:flex;justify-content:center;align-items:center;gap:0;margin:0 auto 12px;perspective:700px;overflow:hidden;border-radius:16px;background:linear-gradient(120deg,transparent,rgba(255,255,255,.035),transparent)}
+.float-card{position:absolute;width:48px;height:68px;border-radius:8px;border:1px solid rgba(255,255,255,.5);background:linear-gradient(145deg,#fff,#e8eaf2);color:#161824;box-shadow:0 8px 20px rgba(0,0,0,.25);display:flex;flex-direction:column;justify-content:space-between;padding:5px;font-weight:900;animation:cardDrift 3.4s ease-in-out infinite;transform-style:preserve-3d}
+.float-card em{font-style:normal;font-size:19px;align-self:center}.float-card small{font-size:10px}.float-card.reds{color:#d51d3b}.float-card.fc1{margin-left:-100px;animation-delay:-1.2s}.float-card.fc2{margin-left:0;animation-delay:-2.3s;z-index:2}.float-card.fc3{margin-left:100px;animation-delay:-.4s}
+@keyframes cardDrift{0%,100%{transform:translateY(9px) rotate(-12deg) rotateY(-12deg)}50%{transform:translateY(-8px) rotate(10deg) rotateY(18deg)}}
+.pc,.sc,.card,.chip,.tb{transition:transform .22s ease,box-shadow .22s ease}
+.view.enter .sc,.view.enter .pc,.view.enter .card{animation:dealIn .48s cubic-bezier(.2,.8,.2,1) both}
+.view.enter .sc:nth-child(2),.view.enter .pc:nth-child(2){animation-delay:.05s}.view.enter .sc:nth-child(3),.view.enter .pc:nth-child(3){animation-delay:.1s}.view.enter .sc:nth-child(4),.view.enter .pc:nth-child(4){animation-delay:.15s}.pc:active,.tb:active{transform:translateY(-3px) scale(1.025)}
+@keyframes dealIn{from{opacity:0;transform:translateY(14px) rotateX(-8deg)}to{opacity:1;transform:none}}
+
+/* ---- v7: themes, pause, drawer themes ---- */
+header#top,#drawer,.sheet,.winbox,#toast{background:var(--solid)}
+header#top,#drawer,.sheet,.winbox,.card,.sc{-webkit-backdrop-filter:var(--bf);backdrop-filter:var(--bf)}
+#drawer{overflow-y:auto}
+#drawer>*{flex:none}
+#bg{overflow:hidden}
+#bg i{display:none;position:absolute;pointer-events:none}
+.pausebar{display:flex;align-items:center;justify-content:space-between;gap:12px;border-color:var(--acc)}
+.pausebar b{font-size:17px}
+.lock{opacity:.4;pointer-events:none;filter:grayscale(.4);user-select:none}
+.dsec{margin:14px 2px 2px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);font-weight:700}
+#drawer button.dt{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:14px}
+.dt i{width:26px;height:26px;border-radius:8px;flex:none;border:1px solid var(--bd)}
+#drawer button.dt.on{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.tsec{margin:14px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);font-weight:700}
+/* Orbital Ripple */
+body[data-fx="orbital"] #bg .rp,body[data-fx="orbital"] #bg .o1,body[data-fx="orbital"] #bg .o2{display:block}
+.rp{left:50%;top:30%;width:110vmax;height:110vmax;margin:-55vmax 0 0 -55vmax;border-radius:50%;border:3px solid rgba(76,201,240,.55);box-shadow:0 0 40px rgba(76,201,240,.25),inset 0 0 40px rgba(123,97,255,.18);transform:scale(.02);opacity:0;animation:rip 12s cubic-bezier(.25,.5,.4,1) infinite;will-change:transform,opacity}
+.rp.r2{animation-delay:3s}.rp.r3{animation-delay:6s}.rp.r4{animation-delay:9s}
+@keyframes rip{0%{transform:scale(.02);opacity:0}10%{opacity:.85}100%{transform:scale(1);opacity:0}}
+.o1{left:50%;top:30%;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(110,210,255,.65) 28%,rgba(123,97,255,.25) 55%,transparent 72%);animation:pulse 5s ease-in-out infinite alternate}
+@keyframes pulse{from{transform:scale(.9)}to{transform:scale(1.15)}}
+.o2{left:50%;top:30%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;border:1px dashed rgba(120,200,255,.4);animation:spin 26s linear infinite}
+.o2::after{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#9be7ff;box-shadow:0 0 14px 4px rgba(120,220,255,.8)}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Glowing Fluid */
+body[data-fx="fluid"] #bg .f1,body[data-fx="fluid"] #bg .f2,body[data-fx="fluid"] #bg .f3{display:block}
+.f1,.f2,.f3{width:80vmax;height:80vmax;border-radius:50%;will-change:transform}
+.f1{left:-25vmax;top:-20vmax;background:radial-gradient(circle,rgba(255,45,149,.62),rgba(255,45,149,0) 66%);animation:fa 16s ease-in-out infinite alternate}
+.f2{right:-30vmax;top:10vh;background:radial-gradient(circle,rgba(0,224,255,.5),rgba(0,224,255,0) 66%);animation:fb 20s ease-in-out infinite alternate}
+.f3{left:5vw;bottom:-35vmax;background:radial-gradient(circle,rgba(124,77,255,.6),rgba(124,77,255,0) 66%);animation:fc 24s ease-in-out infinite alternate}
+@keyframes fa{from{transform:translate(0,0) scale(1)}to{transform:translate(35vmax,28vmax) scale(1.25)}}
+@keyframes fb{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-40vmax,22vmax) scale(.85)}}
+@keyframes fc{from{transform:translate(0,0) scale(1)}to{transform:translate(30vmax,-30vmax) scale(1.3)}}
+/* Nebula Noir */
+body[data-fx="nebula"] #bg .st,body[data-fx="nebula"] #bg .st2{display:block}
+.st,.st2{inset:0;background-size:240px 240px}
+.st{background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 120px,#dfe6ff,transparent),radial-gradient(1.5px 1.5px at 160px 60px,#fff,transparent),radial-gradient(1px 1px at 210px 180px,#ffd9f0,transparent),radial-gradient(1px 1px at 60px 200px,#fff,transparent);animation:tw 5s ease-in-out infinite alternate}
+.st2{background-image:radial-gradient(1.5px 1.5px at 130px 20px,#fff,transparent),radial-gradient(1px 1px at 40px 100px,#cfd8ff,transparent),radial-gradient(1px 1px at 190px 140px,#fff,transparent),radial-gradient(1.5px 1.5px at 100px 220px,#ffd0e8,transparent);background-size:300px 300px;animation:tw 7s ease-in-out -3s infinite alternate}
+@keyframes tw{from{opacity:.35}to{opacity:1}}
+/* MiGlassZ and ELITEBOOK surfaces */
+body[data-fx="glass"] .card,body[data-fx="glass"] .sc{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 32px rgba(8,4,36,.28)}
+body[data-fx="elite"] .card,body[data-fx="elite"] .sc{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 6px 18px rgba(20,30,50,.12)}
+@media(prefers-reduced-motion:reduce){#bg i{animation:none!important}.rp{opacity:.25;transform:scale(.4)}}
+/* ---- v8: 2-5 players ---- */
+.pgrid>.pc:last-child:nth-child(odd){grid-column:1/-1}
+.autob{margin-top:8px;width:100%}
+.score.s5 .sc{padding:8px 2px}.score.s5 .sc b{font-size:16px}.score.s5 .sc span{font-size:11px}
+table.n5 th{font-size:11px}table.n5 .cbid{font-size:19px}table.n5 .csub{font-size:10px}table.n5 .csub span{display:block}table.n5 .csub .dot{display:none}
+table.n2 .cbid,table.n3 .cbid{font-size:26px}
+</style>
+</head>
+<body>
+<div id="bg"><i class="rp r1"></i><i class="rp r2"></i><i class="rp r3"></i><i class="rp r4"></i><i class="o1"></i><i class="o2"></i><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="st"></i><i class="st2"></i></div>
+<header id="top">
+  <button class="icon-btn" id="menuBtn" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="brand"><b>ΣTΣЯПITY</b></div>
+  <button class="timer hidden" id="timer" aria-label="Pause or resume the game timer"><span id="tIc"></span><span id="tTx">00:00</span></button>
+  <button class="icon-btn" id="themeBtn" aria-label="Themes"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-1.9-.3-1 .4-2.1 1.5-2.1H17a4 4 0 0 0 4-4c0-5-4-10-9-10z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7" r="1"/><circle cx="16" cy="8.5" r="1"/></svg></button>
+</header>
+<div id="scrim"></div>
+<nav id="drawer">
+  <div class="dh"><div class="brand"><b>ΣTΣЯПITY</b></div><p>Scorecard &amp; game tracker</p></div>
+  <button data-m="game" id="gameBtn">Current game</button>
+  <button data-m="new">New game</button>
+  <button data-m="about">About</button>
+  <button data-m="rules">Game Rules</button>
+  <button data-m="dev">About / Developer</button>
+  <button data-m="pwa">📲 Install & Offline</button>
+  <button data-m="music">🎵 Music studio</button>
+  <button data-m="language" id="langBtn">Language: English</button>
+  <button data-m="sound" id="soundBtn">Sound: On</button>
+</nav>
+<main id="app"></main>
+<div class="modal" id="modal"><div class="sheet"><div class="sh"><h2 id="mTitle"></h2><button class="icon-btn" data-m="close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="mBody"></div></div></div>
+<div id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+var THEMES=[
+{id:'dark',n:'Dark',s:'dark',bg:'radial-gradient(900px 500px at 85% -10%,rgba(229,9,20,.22),transparent 60%),#0a0a0d',card:'#15151b',card2:'#1e1e26',text:'#f4f4f6',mut:'#9b9ba8',acc:'#e50914',grad:'linear-gradient(135deg,#e50914,#ff4d4d)',onacc:'#fff',bd:'rgba(255,255,255,.09)'},
+{id:'light',n:'Light',s:'light',bg:'#f2f3f7',card:'#ffffff',card2:'#eef0f5',text:'#15161a',mut:'#6b6f7b',acc:'#e50914',grad:'linear-gradient(135deg,#e50914,#ff5a5f)',onacc:'#fff',bd:'rgba(0,0,0,.09)'},
+{id:'gemini',n:'Gemini Gradient',s:'dark',bg:'radial-gradient(800px 500px at 8% -10%,rgba(66,133,244,.38),transparent 60%),radial-gradient(800px 500px at 100% 8%,rgba(217,101,112,.30),transparent 60%),radial-gradient(700px 500px at 50% 110%,rgba(155,114,203,.32),transparent 60%),#0d0e15',card:'#1a1b29',card2:'#25273a',text:'#f1f3fb',mut:'#a3a7c0',acc:'#8ab4f8',grad:'linear-gradient(135deg,#4285f4,#9b72cb 55%,#d96570)',onacc:'#fff',bd:'rgba(255,255,255,.1)'},
+{id:'sky',n:'Light Blue Gradient',s:'light',bg:'linear-gradient(160deg,#e6f5ff 0%,#bfe3ff 50%,#93ccff 100%)',card:'#f7fbff',card2:'#e1f1ff',text:'#0d2a45',mut:'#4f6f8c',acc:'#1b8cf0',grad:'linear-gradient(135deg,#38a8ff,#1b6fe0)',onacc:'#fff',bd:'rgba(13,42,69,.13)'},
+{id:'midnight',n:'Midnight',s:'dark',bg:'linear-gradient(180deg,#0a1030,#050816)',card:'#101842',card2:'#18235a',text:'#eef1ff',mut:'#8f9bd6',acc:'#6c8cff',grad:'linear-gradient(135deg,#6c8cff,#8e6bff)',onacc:'#fff',bd:'rgba(255,255,255,.1)'},
+{id:'ocean',n:'Ocean',s:'dark',bg:'linear-gradient(160deg,#032b3a,#04121c)',card:'#07384b',card2:'#0b4a61',text:'#e8fbff',mut:'#7fc0d1',acc:'#1fd1c4',grad:'linear-gradient(135deg,#1fd1c4,#2e8bff)',onacc:'#032b3a',bd:'rgba(255,255,255,.1)'},
+{id:'sunset',n:'Sunset',s:'dark',bg:'linear-gradient(160deg,#3a1030,#1a0a1c 60%,#2a0f0f)',card:'#2e1530',card2:'#43203f',text:'#fff1ea',mut:'#d4a0aa',acc:'#ff8a4c',grad:'linear-gradient(135deg,#ff6a3d,#ff3d81)',onacc:'#fff',bd:'rgba(255,255,255,.1)'},
+{id:'forest',n:'Forest',s:'dark',bg:'linear-gradient(160deg,#0c2418,#06110b)',card:'#12331f',card2:'#1a472d',text:'#eafff1',mut:'#85b99a',acc:'#3ddc84',grad:'linear-gradient(135deg,#3ddc84,#12b886)',onacc:'#06210f',bd:'rgba(255,255,255,.1)'},
+{id:'royal',n:'Royal Purple',s:'dark',bg:'linear-gradient(160deg,#24103f,#0e0720)',card:'#2f1a55',card2:'#412570',text:'#f6efff',mut:'#b9a3dd',acc:'#f5c451',grad:'linear-gradient(135deg,#f5c451,#ff9d3d)',onacc:'#2a1500',bd:'rgba(255,255,255,.1)'},
+{id:'rose',n:'Rose',s:'light',bg:'linear-gradient(160deg,#fff0f4,#ffd9e4)',card:'#fffafb',card2:'#ffe6ee',text:'#3a1020',mut:'#94596b',acc:'#e5386d',grad:'linear-gradient(135deg,#ff5c8a,#e5386d)',onacc:'#fff',bd:'rgba(58,16,32,.12)'},
+{id:'amoled',n:'AMOLED Black',s:'dark',bg:'#000',card:'#0b0b0b',card2:'#151515',text:'#ffffff',mut:'#8a8a8a',acc:'#ffffff',grad:'linear-gradient(135deg,#ffffff,#bdbdbd)',onacc:'#000',bd:'rgba(255,255,255,.12)'},
+{id:'sand',n:'Sand',s:'light',bg:'linear-gradient(160deg,#f6efe2,#eadcc3)',card:'#fffaf0',card2:'#f1e6d0',text:'#33281a',mut:'#8a7a60',acc:'#b5651d',grad:'linear-gradient(135deg,#d08a3c,#a8541a)',onacc:'#fff',bd:'rgba(51,40,26,.13)'},
+{id:'cyber',n:'Cyber Neon',s:'dark',bg:'radial-gradient(700px 400px at 0% 0%,rgba(0,229,255,.2),transparent 60%),radial-gradient(700px 400px at 100% 100%,rgba(255,0,170,.2),transparent 60%),#07070f',card:'#11111f',card2:'#1b1b30',text:'#f0f6ff',mut:'#8f93b8',acc:'#00e5ff',grad:'linear-gradient(135deg,#00e5ff,#ff2bd6)',onacc:'#06060f',bd:'rgba(0,229,255,.22)'},
+{id:'aurora',n:'Aurora',s:'dark',bg:'radial-gradient(800px 500px at 20% -10%,rgba(52,235,170,.28),transparent 60%),radial-gradient(800px 500px at 90% 10%,rgba(120,90,255,.30),transparent 60%),#07101a',card:'#0f1d2b',card2:'#17304a',text:'#eafcff',mut:'#86a8bd',acc:'#4ff0b6',grad:'linear-gradient(135deg,#4ff0b6,#7a6bff)',onacc:'#04141a',bd:'rgba(255,255,255,.1)'},
+{sp:1,id:'orbital',n:'Orbital Ripple',s:'dark',fx:'orbital',bg:'radial-gradient(circle at 50% 30%,#14235a 0%,#0a1233 36%,#03050f 78%)',card:'rgba(10,18,44,.78)',card2:'rgba(22,34,80,.82)',solid:'#0b1330',text:'#eaf3ff',mut:'#8ea5d9',acc:'#4cc9f0',grad:'linear-gradient(135deg,#4cc9f0,#7b61ff)',onacc:'#04101c',bd:'rgba(120,190,255,.2)',meta:'#0a1233'},
+{sp:1,id:'fluid',n:'Glowing Fluid',s:'dark',fx:'fluid',bg:'#070816',card:'rgba(14,12,38,.72)',card2:'rgba(34,28,80,.74)',solid:'#0e0c26',text:'#f7f3ff',mut:'#b0acdc',acc:'#ff5ccf',grad:'linear-gradient(135deg,#ff2d95,#7c4dff 55%,#00d4ff)',onacc:'#fff',bd:'rgba(255,255,255,.14)',meta:'#070816'},
+{sp:1,id:'nebula',n:'Nebula Noir',s:'dark',fx:'nebula',bg:'radial-gradient(620px 440px at 14% 6%,rgba(135,62,205,.42),transparent 65%),radial-gradient(720px 500px at 94% 30%,rgba(214,72,134,.28),transparent 65%),radial-gradient(820px 580px at 38% 106%,rgba(48,70,196,.32),transparent 65%),#050508',card:'rgba(14,12,22,.80)',card2:'rgba(32,27,48,.84)',solid:'#0e0c16',text:'#f2eff8',mut:'#9d96b8',acc:'#c58bff',grad:'linear-gradient(135deg,#c58bff,#ff6fa8)',onacc:'#14081f',bd:'rgba(197,139,255,.2)',meta:'#050508'},
+{sp:1,id:'miglass',n:'MiGlassZ',s:'dark',fx:'glass',bf:'blur(16px) saturate(150%)',bg:'radial-gradient(520px 420px at 10% 8%,rgba(236,64,140,.85),transparent 70%),radial-gradient(560px 460px at 92% 16%,rgba(74,99,255,.85),transparent 70%),radial-gradient(620px 500px at 72% 96%,rgba(20,184,166,.8),transparent 70%),radial-gradient(520px 420px at 4% 92%,rgba(138,63,252,.8),transparent 70%),#150f38',card:'rgba(255,255,255,.12)',card2:'rgba(255,255,255,.18)',solid:'rgba(34,26,84,.70)',text:'#ffffff',mut:'rgba(255,255,255,.74)',acc:'#ffffff',grad:'linear-gradient(135deg,#ffffff,#e9dcff)',onacc:'#2a1360',bd:'rgba(255,255,255,.30)',meta:'#150f38'},
+{sp:1,id:'elite',n:'ELITEBOOK',s:'light',fx:'elite',bg:'repeating-linear-gradient(90deg,rgba(255,255,255,.30) 0,rgba(255,255,255,.30) 1px,rgba(0,0,0,.025) 1px,rgba(0,0,0,.025) 3px),linear-gradient(160deg,#eceff2 0%,#cfd4db 55%,#aeb6c1 100%)',card:'#f5f7f9',card2:'#e2e6eb',text:'#151a20',mut:'#5a6571',acc:'#0a7fc4',grad:'linear-gradient(135deg,#12a6ec,#0a5fae)',onacc:'#fff',bd:'rgba(21,26,32,.15)'},
+ {id:'ember',n:'Eternal Ember',s:'dark',bg:'radial-gradient(800px 500px at 20% 0%,rgba(255,177,66,.22),transparent 60%),linear-gradient(145deg,#170d18,#090b12)',card:'#211724',card2:'#322034',text:'#fff4e8',mut:'#c4a9b6',acc:'#ffb142',grad:'linear-gradient(135deg,#ffb142,#ff4d6d)',onacc:'#24100b',bd:'rgba(255,177,66,.2)'},
+{id:'almond',n:'Almond',s:'light',bg:'linear-gradient(145deg,#f8f0e4,#e9d7bd)',card:'#fffaf2',card2:'#f0e4d3',text:'#392b20',mut:'#8b7763',acc:'#a96f42',grad:'linear-gradient(135deg,#d9a875,#98613b)',onacc:'#fffaf2',bd:'rgba(57,43,32,.14)'},
+{sp:1,id:'dynamic',n:'Dynamic Aura',s:'dark',fx:'fluid',bg:'radial-gradient(circle at 15% 10%,#402b87,transparent 45%),radial-gradient(circle at 90% 70%,#064e59,transparent 45%),#080b18',card:'rgba(17,22,45,.78)',card2:'rgba(35,43,76,.82)',solid:'rgba(12,17,36,.78)',bf:'blur(12px) saturate(140%)',text:'#f3f7ff',mut:'#a7b5d4',acc:'#73e0d2',grad:'linear-gradient(135deg,#73e0d2,#8c75ff,#f28acb)',onacc:'#07121c',bd:'rgba(160,190,255,.22)'},
+{sp:1,id:'netflix',n:'Cinema Red',s:'dark',bg:'radial-gradient(ellipse at 50% -20%,rgba(229,9,20,.32),transparent 60%),#080808',card:'#171717',card2:'#252525',text:'#f5f5f1',mut:'#a3a3a3',acc:'#e50914',grad:'linear-gradient(135deg,#e50914,#b20710)',onacc:'#fff',bd:'rgba(255,255,255,.12)'},
+{sp:1,id:'amazon',n:'Prime Blue',s:'dark',bg:'linear-gradient(145deg,#071a2d,#07101a)',card:'#10263a',card2:'#18364e',text:'#f3f8fc',mut:'#a8bdcc',acc:'#00a8e0',grad:'linear-gradient(135deg,#00a8e0,#ffad33)',onacc:'#041522',bd:'rgba(160,210,240,.18)'},
+{sp:1,id:'appleglass',n:'Liquid Glass',s:'light',fx:'glass',bf:'blur(18px) saturate(170%)',bg:'radial-gradient(ellipse at 10% 0%,rgba(120,180,255,.7),transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(230,170,255,.65),transparent 50%),linear-gradient(135deg,#eaf2ff,#f5eaff)',card:'rgba(255,255,255,.52)',card2:'rgba(255,255,255,.68)',solid:'rgba(255,255,255,.56)',text:'#18243a',mut:'#59677e',acc:'#3478f6',grad:'linear-gradient(135deg,#3478f6,#b45df0)',onacc:'#fff',bd:'rgba(255,255,255,.7)',meta:'#eaf2ff'}
+];
+/* [symbol, name, isRed] */
+var SUITS=[['♠','Spades',0],['♥','Hearts',1],['♦','Diamonds',1],['♣','Clubs',0]];
+var KEY='eternity_callbreak_v1';
+var CARDS={2:26,3:17,4:13,5:10};
+function TT(c){return CARDS[c.names.length]||13}
+var CARDNOTE={2:'52 cards: 26 each. 26 tricks every round.',3:'52 cards: 17 each, 1 extra card set aside. 17 tricks every round.',4:'52 cards: 13 each. 13 tricks every round.',5:'52 cards: 10 each, 2 extra cards removed. 10 tricks every round.'};
+function $(s,r){return (r||document).querySelector(s)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function sg(n){return (n>0?'+':'')+n}
+function def(){return {theme:'dark',sound:true,musicEnabled:false,view:'setup',cb:null,su:null}}
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||'null');if(j&&typeof j==='object'&&j.theme){var d=Object.assign(def(),j);d.su=null;if(d.cb&&d.cb.names&&d.cb.rounds){d.cb.run=false;d.cb.paused=!d.cb.done;d.view='cb'}else{d.cb=null;d.view='setup'}return d}}catch(e){}return def()}
+var S=load();
+function save(){try{var c=S.cb,snap=null;if(c){snap=Object.assign({},c);snap.acc=elapsed(c);snap.run=false;snap.t0=0}localStorage.setItem(KEY,JSON.stringify(Object.assign({},S,{cb:snap,su:null})))}catch(e){}}
+var app=$('#app');
+
+/* ---------- helpers ---------- */
+function elapsed(g){return g.acc+(g.run?Date.now()-g.t0:0)}
+function fmt(ms){var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;var p=function(n){return n<10?'0'+n:''+n};return (h?h+':':'')+p(m)+':'+p(x)}
+var CAN_SHARE=typeof navigator.share==='function'&&typeof navigator.canShare==='function';
+var PAUSE_IC='<svg viewBox="0 0 12 12"><rect x="1.5" y="1" width="3" height="10" rx="1"/><rect x="7.5" y="1" width="3" height="10" rx="1"/></svg>',PLAY_IC='<svg viewBox="0 0 12 12"><path d="M2.5 1l8 5-8 5z"/></svg>';
+function tick(){if(S.view==='cb'&&S.cb)$('#tTx').textContent=fmt(elapsed(S.cb))}
+setInterval(tick,1000);
+setInterval(function(){if(S.cb&&S.cb.run)save()},4000);
+window.addEventListener('pagehide',save);
+document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
+function pause(){var g=S.cb;if(g&&g.run){g.acc+=Date.now()-g.t0;g.run=false}}
+function togglePause(){
+  var c=S.cb;if(!c||c.done||S.view!=='cb')return;
+  if(c.paused){c.paused=false;resume(c);toast('Game resumed')}
+  else{pause();c.paused=true;toast('Game paused. It is saved on this device.')}
+  render(false);
+}
+function resume(g){if(g&&!g.done&&!g.paused&&!g.run){g.run=true;g.t0=Date.now()}}
+function finish(g){g.acc=elapsed(g);g.run=false;g.done=true}
+var tt=0;
+function toast(m,err){var t=$('#toast');t.textContent=m;t.className='on'+(err?' err':'');clearTimeout(tt);tt=setTimeout(function(){t.className=''},2400)}
+function buzz(){try{if(navigator.vibrate)navigator.vibrate(6)}catch(e){}}
+var wl=null;
+function wake(){try{if(S.view==='cb'&&navigator.wakeLock&&!wl){navigator.wakeLock.request('screen').then(function(l){wl=l;l.addEventListener('release',function(){wl=null})}).catch(function(){})}}catch(e){}}
+document.addEventListener('visibilitychange',function(){if(!document.hidden)wake()});
+
+/* ---------- themes ---------- */
+function applyTheme(id){
+  var t=THEMES.filter(function(x){return x.id===id})[0]||THEMES[0];
+  var r=document.documentElement.style;
+  r.setProperty('--bg',t.bg);r.setProperty('--card',t.card);r.setProperty('--card2',t.card2);r.setProperty('--text',t.text);r.setProperty('--mut',t.mut);r.setProperty('--acc',t.acc);r.setProperty('--grad',t.grad);r.setProperty('--onacc',t.onacc);r.setProperty('--bd',t.bd);
+  r.setProperty('--solid',t.solid||t.card);r.setProperty('--bf',t.bf||'none');
+  document.body.setAttribute('data-fx',t.fx||'');
+  r.colorScheme=t.s;
+  var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',t.meta||t.card);
+  S.theme=t.id;
+}
+function tmBtn(t){return '<button class="tm '+(S.theme===t.id?'on':'')+'" data-th="'+t.id+'"><div class="pv" style="background:'+t.bg+'"><i style="background:'+t.grad+'"></i></div><span style="background:'+(t.solid||t.card)+';color:'+t.text+'">'+t.n+'</span></button>'}
+function themeModal(){
+  openModal('Choose a theme','<p class="mut">All looks are here — use the palette button in the top-right any time.</p><div class="themes">'+THEMES.map(tmBtn).join('')+'</div>');
+}
+function drawerThemes(){}
+
+/* ---------- modal & drawer ---------- */
+function openModal(t,h){$('#mTitle').textContent=tr(t);$('#mBody').innerHTML=translateHtml(h);$('#modal').classList.add('on')}
+function closeModal(){$('#modal').classList.remove('on')}
+function openDrawer(){document.body.classList.add('menu')}
+function closeDrawer(){document.body.classList.remove('menu')}
+function aboutHtml(){return '<p><b>ΣTΣЯПITY</b> — a lightweight scorecard with customizable themes and local game history.</p><ul><li>2–5 players, bids, tricks, trump suit and Queen Minus mode</li><li>Round history, totals, undo, pause/resume and saved games</li><li>Winner celebration, result image sharing and standard sound effects</li><li>Classic, Almond, Dynamic Aura, Cinema Red, Prime Blue and Liquid Glass themes</li><li>Optional local music upload; music is off by default</li><li>English and Hinglish menu options</li><li>Install prompt and offline-use guidance</li></ul><div class="card"><h3 class="ct">A message from the developer</h3><p>Thanks for using ΣTΣЯПITY. I built it to make scorekeeping simple, fun and beautiful. Your feedback helps shape future improvements.</p></div><p><b>Developer:</b> ΣTΣЯПITY</p><p><b>Suggestions:</b> Use the feedback form to contact the developer.</p><button class="btn wide" data-m="suggest">✉ Send a suggestion / report a bug</button><p class="mut">Scores and settings stay in this browser on this device.</p>'}
+function suggestionHtml(){return '<p>Choose what you want to send. Your email address will be included so the developer can reply.</p><form id="suggestForm"><label class="lbl" for="suggestType">What do you need?</label><select class="inp" id="suggestType" required><option value="Bug report">Bug report</option><option value="Add features">Add features</option><option value="Other suggestion">Other suggestion</option></select><label class="lbl" for="suggestEmail" style="margin-top:12px">Your email address</label><input class="inp" id="suggestEmail" type="email" required placeholder="you@example.com" autocomplete="email" style="width:100%"><label class="lbl" for="suggestDetails" style="margin-top:12px">Details (optional)</label><textarea class="inp" id="suggestDetails" rows="4" placeholder="Tell me what happened or what you would like…" style="width:100%;resize:vertical"></textarea><button class="btn wide" type="submit">Continue to Gmail ✉</button><p class="note">This opens a pre-filled Gmail draft addressed to the developer. For privacy and spam protection, the app cannot send email silently; you must press Send in Gmail.</p></form>'}
+
+function devHtml(){return '<p><b>ΣTΣЯПITY</b> · Scorecard</p><p>Built with plain HTML, CSS and JavaScript. No account required.</p><p><b>Suggestion form:</b> Use the in-app form to send feedback.</p><p>Keyboard shortcuts: <b>Esc</b> closes dialogs/menus; use the menu for New Game, Rules, Themes, Music and Install.</p><p class="mut">For dependable offline installation, host this page over HTTPS and add a service worker. This single-file build saves scores locally and can be installed where the browser supports its generated app manifest; browser/PWA offline rules vary.</p>'}
+function pwaHtml(){return '<p><b>Install ΣTΣЯПITY</b></p><p>Install the scorecard on your device for an app-like experience. Your scores are saved locally in this browser.</p><button class="btn wide" id="installPwa">Install app</button><p id="pwaStatus" class="note">If the install button is unavailable, open your browser menu and choose “Install app” or “Add to Home screen”.</p><h3 class="ct">Offline use</h3><p>Open the page once while online. Scoring and saved games work locally, but full offline launch depends on browser caching or a service worker supplied by the website host. A standalone index.html cannot register a reliable same-origin service worker by itself.</p><button class="btn ghost wide" id="shareApp">Share app</button>'}
+function musicHtml(){return '<p>Music is optional and turned off by default. Normal game sound effects keep working. Enable optional winner music below, or preview a track manually.</p><label class="opt" style="margin-bottom:12px"><span><input id="musicEnabled" type="checkbox" '+(S.musicEnabled?'checked':'')+'> Enable music for winner celebrations</span></label><p>Choose a generated background track or add your own audio file from this device. Uploaded audio stays local and is not sent anywhere.</p><div class="prow"><label class="lbl" for="musicMode">Music mode</label><select id="musicMode" class="inp"><option value="play">Playing-time music</option><option value="win">Winning moment</option></select></div><div class="prow"><label class="lbl" for="trackSelect">10 built-in generated tracks</label><select id="trackSelect" class="inp">'+Array.from({length:10},function(_,i){return '<option value="'+i+'">Track '+(i+1)+' — '+['Starlight','Neon Run','Calm Focus','Royal Table','Ocean Pulse','Desert Drive','Aurora','Arcade Rush','Midnight','Victory Spark'][i]+'</option>'}).join('')+'</select></div><div class="row"><button class="btn" id="playMusic">▶ Play</button><button class="btn ghost" id="stopMusic">■ Stop</button></div><p class="note">Add your own winning sound or music:</p><input class="inp" style="width:100%" id="localMusic" type="file" accept="audio/*"><audio id="localAudio" controls style="width:100%;margin-top:10px"></audio><p class="note">Tip: browser audio requires a tap to start. Generated tracks are synthesized in your browser.</p>'}
+function rulesHtml(){
+  return '<details open><summary>Basics</summary><ul>'+
+  '<li><b>Players and cards:</b> 2 to 5 players, chosen when the game starts, with a standard 52-card deck. 2 players: 26 cards each. 3 players: 17 cards each, 1 extra card set aside. 4 players: 13 cards each. 5 players: 10 cards each, 2 extra cards removed.</li>'+
+  '<li><b>Dealer:</b> The player who shuffles is the dealer. The player on the dealer\'s right cuts the cards and becomes the next dealer. This repeats every round. In this app, list players in seating order; the next name in the list is the player on the dealer\'s right.</li>'+
+  '<li><b>Trump:</b> The trump suit is decided every round after the cards are shuffled and cut. Mark it in the <b>Trump suit</b> section before locking the bids.</li>'+
+  '<li><b>Bidding:</b> After seeing their cards, every player bids how many tricks (hands) they expect to win.</li>'+
+  '<li><b>Tricks:</b> The tricks won by all players must add up to the cards each player holds: 26 (2 players), 17 (3), 13 (4) or 10 (5). While entering what each player made, the app never lets the total go above this. The last player has an Auto fill button that puts in whatever is left.</li></ul></details>'+
+  '<details open><summary>Scoring</summary><ul>'+
+  '<li>Made exactly your bid: <b>bid &times; 10</b> points.</li>'+
+  '<li>One extra trick: <b>(bid &times; 10) + 1</b>. Two extra tricks: <b>(bid &times; 10) + 2</b>.</li>'+
+  '<li>More than two extra tricks, or fewer tricks than your bid: <b>&minus;(bid &times; 10)</b>.</li></ul>'+
+  '<table class="ex"><thead><tr><th>Bid 5, tricks won</th><th>Points</th></tr></thead><tbody><tr><td>5</td><td>50</td></tr><tr><td>6</td><td>51</td></tr><tr><td>7</td><td>52</td></tr><tr><td>8 or more</td><td>-50</td></tr><tr><td>4 or fewer</td><td>-50</td></tr></tbody></table>'+
+  '<p class="mut">A bid of 0 (free choice only) scores 0 plus 1 or 2 for one or two tricks won, and 0 otherwise.</p></details>'+
+  '<details open><summary>Game type (chosen at the start)</summary><ul>'+
+  '<li><b>Normal:</b> scoring exactly as above.</li>'+
+  '<li><b>Queen Minus:</b> Whoever gets the Queen of the trump suit in that round gets a fine of <b>&minus;13</b> points added to their points for that round. Mark who got the Queen in the result step before saving the round. With 3 or 5 players the Queen of trump may be among the cards left out; then choose Nobody and no fine is applied.</li></ul></details>'+
+  '<details><summary>Minimum bid rule (chosen at the start)</summary><ul><li><b>At least 1</b> &ndash; every player must bid 1 or more.</li><li><b>At least 2</b> &ndash; every player must bid 2 or more.</li><li><b>Free choice</b> &ndash; each player gets their own minimum, any value from 0 to 13.</li></ul><p>In every round the bid box opens at that minimum and cannot go below it.</p></details>'+
+  '<details><summary>Winner and undo</summary><ul><li>After the chosen number of rounds, the highest total wins. Ties are shared.</li><li><b>Undo</b> steps back: results go back to bids, and a saved round reopens with its bids, results, trump and Queen so you can edit them.</li><li><b>Pause and resume:</b> tap the timer at the top to pause or resume. A paused game is locked and the timer stops. The game is saved on this device, so if you close the page you can come back, press Resume and continue from the same round.</li><li><b>Result image:</b> when the game ends, tap Download JPG to save the final result and share it.</li></ul></details>';
+}
+
+/* ---------- navigation ---------- */
+var bumpId=null;
+function render(anim){
+  app.innerHTML=translateHtml('<div class="view'+(anim===false?'':' enter')+'">'+(S.view==='cb'&&S.cb?viewCb():viewSetup())+'</div>');
+  var tm=$('#timer'),showT=S.view==='cb'&&!!S.cb,cp=showT&&!!S.cb.paused&&!S.cb.done;
+  tm.classList.toggle('hidden',!showT);tm.classList.toggle('paused',cp);tm.disabled=showT&&!!S.cb.done;
+  $('#tIc').innerHTML=(showT&&S.cb.done)?'':(cp?PLAY_IC:PAUSE_IC);
+  $('#gameBtn').classList.toggle('hidden',!S.cb);
+  if(bumpId){var e=document.getElementById(bumpId);if(e)e.classList.add('bump');bumpId=null}
+  $('#soundBtn').textContent=LANG==='hi'?'Sound: '+(S.sound?'On':'Off')+' / '+(S.sound?'Awaaz chalu':'Awaaz band'):'Sound: '+(S.sound?'On':'Off');
+  if(LANG==='hi'){var dm={'Current game':'Abhi ka game','New game':'Naya game','About':'Jaankari','Game Rules':'Game ke rules','About / Developer':'App aur developer','📲 Install & Offline':'📲 Install aur offline','🎵 Music studio':'🎵 Music studio'};document.querySelectorAll('#drawer button').forEach(function(b){var v=dm[b.textContent];if(v)b.textContent=v})}else{var em={'Abhi ka game':'Current game','Naya game':'New game','Jaankari':'About','Game ke rules':'Game Rules','App aur developer':'About / Developer','📲 Install aur offline':'📲 Install & Offline','🎵 Music studio':'🎵 Music studio'};document.querySelectorAll('#drawer button').forEach(function(b){var v=em[b.textContent];if(v)b.textContent=v})}
+  tick();save();
+}
+function showGame(){if(!S.cb)return;pause();S.view='cb';resume(S.cb);closeDrawer();closeWin();render();window.scrollTo(0,0);wake()}
+function openSetup(){
+  var old=S.cb;
+  var names=old&&old.names?old.names.slice():['Player 1','Player 2','Player 3','Player 4'];
+  S.su={names:names,n:names.length,dealer:0,rounds:5,rule:1,mins:names.map(function(){return 0}),mode:'n'};
+  pause();S.view='setup';closeDrawer();closeWin();render();window.scrollTo(0,0);
+}
+
+/* ---------- setup ---------- */
+function chips(f,cur,list){return '<div class="chips">'+list.map(function(o){return '<button class="chip '+(cur===o[0]?'on':'')+'" data-act="su" data-f="'+f+'" data-v="'+o[0]+'">'+o[1]+'</button>'}).join('')+'</div>'}
+function viewSetup(){
+  if(!S.su)S.su={names:['Player 1','Player 2','Player 3','Player 4'],n:4,dealer:0,rounds:5,rule:1,mins:[0,0,0,0],mode:'n'};
+  var u=S.su,h='';
+  if(S.cb)h+='<div class="backrow"><button class="btn ghost sm" data-act="back">&larr; Back to game</button></div>';
+  h+='<h1 class="hero">New game</h1><p class="sub">Choose the game type, add players and set the rules. You can change the names every time a new game starts.</p>';
+  h+='<div class="card"><h3 class="ct">How many players?</h3>'+chips('n',u.n,[[2,'2 players'],[3,'3 players'],[4,'4 players'],[5,'5 players']])+'<p class="note">'+CARDNOTE[u.n]+'</p></div>';
+  h+='<div class="card"><h3 class="ct">Game type</h3><div class="rules3">'+[['n','Normal','Standard scoring'],['q','Queen Minus','Whoever gets the Queen of the trump suit gets -13 points that round']].map(function(r){return '<button class="opt '+(u.mode===r[0]?'on':'')+'" data-act="su" data-f="mode" data-v="'+r[0]+'"><b>'+r[1]+'</b><span>'+r[2]+'</span></button>'}).join('')+'</div></div>';
+  h+='<div class="card"><h3 class="ct">Players</h3>'+u.names.map(function(n,i){return '<div class="prow"><span class="pn">'+(i+1)+'</span><input class="inp" data-bind="name" data-i="'+i+'" maxlength="14" value="'+esc(n)+'" placeholder="Player '+(i+1)+'" autocomplete="off"></div>'}).join('')+'<p class="note">Enter players in seating order. The next name in the list sits on the dealer\'s right.</p></div>';
+  h+='<div class="card"><h3 class="ct">First dealer</h3><div class="chips">'+u.names.map(function(n,i){return '<button class="chip '+(u.dealer===i?'on':'')+'" id="dl'+i+'" data-act="su" data-f="dealer" data-v="'+i+'">'+esc(n.trim()||'Player '+(i+1))+'</button>'}).join('')+'</div></div>';
+  h+='<div class="card"><h3 class="ct">Rounds</h3>'+chips('rounds',u.rounds,[[3,'3'],[5,'5'],[7,'7'],[10,'10']])+'</div>';
+  h+='<div class="card"><h3 class="ct">Minimum bid rule</h3><div class="rules3">'+[[1,'At least 1','Every player must bid 1 or more'],[2,'At least 2','Every player must bid 2 or more'],['free','Free choice','Each player picks their own minimum (0 to '+CARDS[u.n]+')']].map(function(r){return '<button class="opt '+(u.rule===r[0]?'on':'')+'" data-act="su" data-f="rule" data-v="'+r[0]+'"><b>'+r[1]+'</b><span>'+r[2]+'</span></button>'}).join('')+'</div>'+
+  (u.rule==='free'?'<div class="minlist">'+u.names.map(function(n,i){return '<div class="mrow"><span id="mn'+i+'">'+esc(n.trim()||'Player '+(i+1))+'</span><div class="mini"><button data-act="sumin" data-i="'+i+'" data-d="-1">&minus;</button><b>'+u.mins[i]+'</b><button data-act="sumin" data-i="'+i+'" data-d="1">+</button></div></div>'}).join('')+'</div>':'')+
+  '<p class="note">From round 1, the bid box shows this minimum every round and cannot go below it.</p></div>';
+  h+='<button class="btn wide" data-act="start">Start game</button>';
+  return h;
+}
+function setPlayers(n){
+  var u=S.su;u.n=n;
+  while(u.names.length<n)u.names.push('Player '+(u.names.length+1));
+  u.names.length=n;
+  while(u.mins.length<n)u.mins.push(0);
+  u.mins.length=n;
+  u.mins=u.mins.map(function(m){return clamp(m,0,CARDS[n])});
+  if(u.dealer>=n)u.dealer=0;
+  render(false);
+}
+function startGame(){
+  if(S.cb&&!S.cb.done&&!confirm('Start a new game? Your current unfinished game will be replaced.'))return;
+  var u=S.su;
+  var names=u.names.map(function(n,i){return (n||'').trim()||('Player '+(i+1))});
+  var mins=u.rule==='free'?u.mins.slice():names.map(function(){return u.rule});
+  S.cb={names:names,mode:u.mode,d0:u.dealer,total:u.rounds,rule:u.rule,mins:mins,rounds:[],phase:'bid',bids:mins.slice(),tricks:names.map(function(){return 0}),trump:null,queen:null,acc:0,run:true,t0:Date.now(),done:false,paused:false};
+  S.su=null;S.view='cb';render();window.scrollTo(0,0);wake();
+}
+
+/* ---------- winner overlay ---------- */
+function closeWin(){var w=$('#win');if(w)w.remove()}
+function walker(){return '<svg class="walker" viewBox="0 0 120 190" width="130" height="206" aria-hidden="true"><g class="fig"><g class="leg l"><line x1="50" y1="140" x2="50" y2="174"/><ellipse cx="55" cy="178" rx="12" ry="5"/></g><g class="leg r"><line x1="70" y1="140" x2="70" y2="174"/><ellipse cx="75" cy="178" rx="12" ry="5"/></g><g class="arm l"><line x1="40" y1="98" x2="40" y2="130"/><circle cx="40" cy="134" r="6"/></g><g class="arm r"><line x1="80" y1="98" x2="80" y2="130"/><circle cx="80" cy="134" r="6"/></g><rect class="torso" x="36" y="88" width="48" height="56" rx="16"/><circle class="head" cx="60" cy="62" r="24"/><circle class="eye" cx="51" cy="62" r="3"/><circle class="eye" cx="69" cy="62" r="3"/><path class="smile" d="M49 72 Q60 83 71 72"/><g class="sign"><rect x="6" y="6" width="108" height="32" rx="9"/><text x="60" y="29" text-anchor="middle">WINNER</text></g></g></svg>'}
+function confetti(box){
+  var cols=['#ffd23f','#ff4d6d','#4ee1a0','#4aa8ff','#c77dff','#ff9f1c'];
+  for(var i=0;i<46;i++){var c=document.createElement('i');c.className='cf';c.style.left=(Math.random()*100)+'%';c.style.background=cols[i%cols.length];c.style.animationDelay=(Math.random()*.8)+'s';c.style.setProperty('--dx',((Math.random()*160)-80)+'px');box.appendChild(c)}
+  setTimeout(function(){box.querySelectorAll('.cf').forEach(function(n){n.remove()})},4200);
+}
+function playWin(){
+  try{
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+    var ac=new AC(),n=[523.25,659.25,783.99,1046.5,783.99,1046.5,1318.5],t=ac.currentTime+.05;
+    n.forEach(function(f,i){var o=ac.createOscillator(),g=ac.createGain();o.type=i>5?'triangle':'sine';o.frequency.value=f;var s=t+i*.16,d=i===n.length-1?.7:.2;g.gain.setValueAtTime(0.0001,s);g.gain.exponentialRampToValueAtTime(.28,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(ac.destination);o.start(s);o.stop(s+d+.05)});
+    setTimeout(function(){try{ac.close()}catch(e){}},2500);
+  }catch(e){}
+}
+function showWin(o){
+  closeWin();
+  var w=document.createElement('div');w.id='win';
+  w.innerHTML='<div class="winbox"><div class="stage" id="stage"><svg class="victory-flag" viewBox="0 0 420 100" aria-hidden="true"><defs><linearGradient id="flagGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="var(--acc)"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><path d="M14 8V92 M14 12 Q115 0 210 15 T406 12 L406 82 Q300 96 210 80 T14 86Z" fill="url(#flagGrad)" opacity=".96"/><path class="cloth" d="M20 15 Q115 3 210 18 T400 15 L400 78 Q300 91 210 76 T20 82Z" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.45)" stroke-width="2"/><text x="210" y="54" text-anchor="middle" font-size="26" font-weight="900" letter-spacing="3" fill="white">ΣTΣЯПITY</text></svg>'+walker()+'</div><div class="wt">'+(o.win.length>1?"It's a tie!":'Winner!')+'</div><div class="wn">'+o.win.map(esc).join(' &amp; ')+'</div><ol class="wl">'+o.rows.map(function(r){return '<li><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></li>'}).join('')+'</ol><div class="row c" style="margin-bottom:8px"><button class="btn" data-w="jpg">&darr; Download JPG</button>'+(CAN_SHARE?'<button class="btn ghost" data-w="share">Share</button>':'')+'</div><div class="row c"><button class="btn ghost" data-w="close">Close</button><button class="btn ghost" data-w="undo">&#8630; Undo last</button><button class="btn" data-w="new">New game</button></div></div>';
+  document.body.appendChild(w);
+  requestAnimationFrame(function(){w.classList.add('on')});
+  setTimeout(function(){var s=$('#stage');if(s){s.classList.add('arrived');confetti(w)}},2500);
+  if(S.sound)playWin();
+}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-w]');if(!b)return;
+  var a=b.dataset.w;
+  if(a==='close')closeWin();
+  else if(a==='new'){closeWin();openSetup()}
+  else if(a==='undo'){closeWin();cbUndo()}
+  else if(a==='jpg')saveJpg();
+  else if(a==='share')shareJpg();
+});
+
+/* ---------- Callbreak logic ---------- */
+function cbBase(b,t){var x=t-b;return (x>=0&&x<=2)?b*10+x:-b*10}
+function cbScores(c){return c.names.map(function(_,i){return cbBase(c.bids[i],c.tricks[i])-(c.mode==='q'&&c.queen===i?13:0)})}
+function cbTotals(c){var t=c.names.map(function(){return 0});c.rounds.forEach(function(r){r.sc.forEach(function(x,i){t[i]+=x})});return t}
+function cbWin(){
+  if(S.musicEnabled){try{if(localMusicUrl){var winAudio=new Audio(localMusicUrl);winAudio.play().catch(function(){});}else playGeneratedTrack(9,'win')}catch(e){}}
+
+  var c=S.cb,t=cbTotals(c),m=Math.max.apply(null,t);
+  var order=c.names.map(function(n,i){return i}).sort(function(a,b){return t[b]-t[a]});
+  showWin({win:c.names.filter(function(n,i){return t[i]===m}),rows:order.map(function(i){return [c.names[i],String(t[i])]})});
+}
+function suitHtml(i){var s=SUITS[i];return '<span class="'+(s[2]?'red':'')+'">'+s[0]+'</span>'}
+function viewCb(){
+  var c=S.cb,tot=cbTotals(c),N=c.names.length,T=TT(c);
+  var idx=c.done?c.total-1:c.rounds.length,dealer=(c.d0+idx)%N,cut=(dealer+1)%N,max=Math.max.apply(null,tot);
+  var q=c.mode==='q';
+  var h='<div class="rhead"><div><div class="rno">Round '+Math.min(idx+1,c.total)+'<small> / '+c.total+'</small></div><div class="dots">'+Array.from({length:c.total},function(_,i){return '<i class="'+(i<c.rounds.length?'d':(i===idx&&!c.done?'a':''))+'"></i>'}).join('')+'</div></div><div class="pills"><div class="rulepill">'+(q?'Queen Minus':'Normal')+'</div><div class="rulepill">Min bid: '+(c.rule==='free'?'Free':c.rule)+'</div></div></div>';
+  if(!c.done)h+='<div class="playing-cards" aria-hidden="true"><div class="float-card fc1 reds"><small>A</small><em>♥</em><small>♥</small></div><div class="float-card fc2"><small>K</small><em>♠</em><small>♠</small></div><div class="float-card fc3 reds"><small>Q</small><em>♦</em><small>♦</small></div></div>';
+  if(!c.done)h+='<div class="card dl"><div><span class="lbl">Dealer</span><b>'+esc(c.names[dealer])+'</b></div><div class="arrow">&rarr;</div><div style="text-align:right"><span class="lbl">Cuts and deals next</span><b>'+esc(c.names[cut])+'</b></div></div>';
+  h+='<div class="score s'+N+'" style="grid-template-columns:repeat('+N+',minmax(0,1fr))">'+c.names.map(function(nm,i){return '<div class="sc '+(c.rounds.length&&tot[i]===max?'lead':'')+'"><span>'+esc(nm)+'</span><b>'+tot[i]+'</b></div>'}).join('')+'</div>';
+  if(c.done){
+    var wn=c.names.filter(function(n,i){return tot[i]===max});
+    h+='<div class="card go"><h2>Game over</h2><p class="sub">Winner: <b>'+wn.map(esc).join(' &amp; ')+'</b> &middot; Time '+fmt(elapsed(c))+'</p><div class="row c" style="margin-bottom:8px"><button class="btn" data-act="jpg">&darr; Download JPG</button>'+(CAN_SHARE?'<button class="btn ghost" data-act="share">Share</button>':'')+'</div><div class="row c"><button class="btn ghost" data-act="showwin">Show winner</button><button class="btn ghost" data-act="undo">&#8630; Undo last round</button><button class="btn" data-act="new">New game</button></div></div>';
+  }else{
+    var res=c.phase==='res',arr=res?c.tricks:c.bids,sum=arr.reduce(function(a,b){return a+b},0),sc=res?cbScores(c):null,remL=T-(sum-(res?c.tricks[N-1]:0));
+    h+='<div class="card"><div class="ptitle"><b>Trump suit</b><span class="'+(c.trump!=null?'ok':'')+'">'+(c.trump!=null?SUITS[c.trump][1]+' marked':'Mark after shuffle &amp; cut')+'</span></div><div class="trump">'+SUITS.map(function(s,i){return '<button class="tb '+(s[2]?'red ':'')+(c.trump===i?'on':'')+'" data-act="trump" data-v="'+i+'">'+s[0]+'<small>'+s[1]+'</small></button>'}).join('')+'</div></div>';
+    h+='<div class="card"><div class="ptitle"><b>'+(res?'Enter tricks won':'Enter bids')+'</b><span class="'+(res&&sum===T?'ok':'')+'">'+(res?'Assigned '+sum+' / '+T:'Total bids '+sum)+'</span></div><div class="pgrid">'+
+    c.names.map(function(nm,i){return '<div class="pc '+(i===dealer?'dealer':'')+'"><div class="pn2">'+esc(nm)+(i===dealer?'<em>D</em>':'')+'</div>'+(res?'<div class="bidchip">Bid <b>'+c.bids[i]+'</b></div>':'<div class="minl">min '+c.mins[i]+'</div>')+'<div class="stp"><button data-act="'+(res?'trk':'bid')+'" data-i="'+i+'" data-d="-1">&minus;</button><div class="big" id="n'+i+'">'+arr[i]+'</div><button data-act="'+(res?'trk':'bid')+'" data-i="'+i+'" data-d="1">+</button></div>'+(res?'<div class="proj">Points <b class="'+(sc[i]>=0?'pos':'neg')+'">'+sg(sc[i])+'</b></div>'+(i===N-1?'<button class="btn ghost sm autob" data-act="auto">Auto fill ('+remL+')</button>':''):'')+'</div>'}).join('')+'</div></div>';
+    if(res&&q){
+      h+='<div class="card"><div class="ptitle"><b>Queen of trump '+(c.trump!=null?'(Q'+suitHtml(c.trump)+')':'')+'</b><span class="'+(c.queen!=null?'ok':'')+'">'+(c.queen==null?'Who got it?':(c.queen<0?'No fine':'-13 fine'))+'</span></div><div class="chips">'+c.names.map(function(nm,i){return '<button class="chip '+(c.queen===i?'on':'')+'" data-act="queen" data-i="'+i+'">'+esc(nm)+'</button>'}).join('')+(N%2?'<button class="chip '+(c.queen===-1?'on':'')+'" data-act="queen" data-i="-1">Nobody</button>':'')+'</div><p class="note">Whoever gets the Queen of the trump suit this round gets -13 points added to their round points.'+(N%2?' With '+N+' players the Queen can be among the cards left out; then choose Nobody.':'')+'</p></div>';
+    }
+    h+='<div class="acts"><button class="btn ghost" data-act="undo" '+((res||c.rounds.length)?'':'disabled')+'>&#8630; Undo</button><button class="btn" data-act="'+(res?'save':'lock')+'">'+(res?'Save round &#10003;':'Lock bids &rarr;')+'</button></div>';
+  }
+  if(c.rounds.length){
+    h+='<div class="card"><h3 class="ct">Rounds</h3><div class="tw"><table class="n'+N+'"><thead><tr><th>#</th>'+c.names.map(function(n){return '<th>'+esc(n)+'</th>'}).join('')+'</tr></thead><tbody>'+
+    c.rounds.map(function(r,ri){return '<tr><td class="r">'+(ri+1)+'<i>'+suitHtml(r.trump)+'</i></td>'+r.sc.map(function(s,i){return '<td><div class="cbid">'+r.bids[i]+'</div><div class="csub">won '+r.tricks[i]+'<span class="dot"> &middot; </span><span class="'+(s>=0?'pos':'neg')+'">'+sg(s)+'</span></div>'+(r.queen===i?'<div class="csub neg"><b>Q-13</b></div>':'')+'</td>'}).join('')+'</tr>'}).join('')+
+    '</tbody><tfoot><tr><td class="r">&Sigma;</td>'+tot.map(function(x){return '<td>'+x+'</td>'}).join('')+'</tr></tfoot></table></div></div>';
+  }
+  h+='<div class="row c"><button class="btn ghost sm" data-act="new">New game</button></div>';
+  if(c.paused&&!c.done)return '<div class="card pausebar"><div><b>Game paused</b><div class="note" style="margin:2px 0 0">Timer stopped. Your game is saved on this device.</div></div><button class="btn" data-act="resume">&#9654; Resume</button></div><div class="lock">'+h+'</div>';
+  return h;
+}
+function cbUndo(){
+  var c=S.cb,r;
+  if(!c)return;
+  function reopen(){r=c.rounds.pop();c.bids=r.bids.slice();c.tricks=r.tricks.slice();c.trump=r.trump;c.queen=r.queen;c.phase='res'}
+  if(c.done){reopen();c.done=false;resume(c);toast('Last round reopened. Edit the results.')}
+  else if(c.phase==='res'){c.phase='bid';toast('Back to bids. You can edit them.')}
+  else if(c.rounds.length){reopen();toast('Round '+(c.rounds.length+1)+' reopened. Edit results (or Undo again for bids).')}
+  else{toast('Nothing to undo');return}
+  render(false);
+}
+function cbSave(){
+  var c=S.cb,sum=c.tricks.reduce(function(a,b){return a+b},0);
+  if(c.trump==null){toast('Mark the trump suit first',1);return}
+  if(sum!==TT(c)){toast('Tricks must add up to '+TT(c)+' (now '+sum+')',1);return}
+  if(c.mode==='q'&&c.queen==null){toast('Select who got the Queen of trump',1);return}
+  c.rounds.push({trump:c.trump,queen:c.mode==='q'?c.queen:null,bids:c.bids.slice(),tricks:c.tricks.slice(),sc:cbScores(c)});
+  if(c.rounds.length>=c.total){finish(c);render(false);cbWin();return}
+  c.phase='bid';c.bids=c.mins.slice();c.tricks=c.names.map(function(){return 0});c.trump=null;c.queen=null;render(false);toast('Round saved');
+}
+
+/* ---------- result image (JPG) ---------- */
+var FONT='system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+function curTheme(){return THEMES.filter(function(x){return x.id===S.theme})[0]||THEMES[0]}
+function hexA(h,a){var n=parseInt(String(h).slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function fitText(x,txt,w,size,wt){var s=size;x.font=wt+' '+s+'px '+FONT;while(s>12&&x.measureText(txt).width>w){s-=2;x.font=wt+' '+s+'px '+FONT}if(x.measureText(txt).width>w){while(txt.length>1&&x.measureText(txt+'…').width>w)txt=txt.slice(0,-1);txt+='…'}return txt}
+function buildCanvas(){
+  var c=S.cb,t=curTheme(),W=1080,P=56,N=c.names.length,rows=c.rounds.length,H=2*P+670+N*84+rows*78;
+  var tot=cbTotals(c),max=Math.max.apply(null,tot);
+  var win=c.names.filter(function(n,i){return tot[i]===max});
+  var order=c.names.map(function(n,i){return i}).sort(function(a,b){return tot[b]-tot[a]});
+  var posC=t.s==='light'?'#168a4a':'#2ecc71',negC=t.s==='light'?'#d6333a':'#ff5a5f';
+  var cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  var x=cv.getContext('2d'),y=P,LW=130,CW=(W-2*P-LW)/N;
+  x.fillStyle=t.meta||t.solid||t.card;x.fillRect(0,0,W,H);
+  var g=x.createRadialGradient(W*.85,0,0,W*.85,0,W);g.addColorStop(0,hexA(t.acc,.30));g.addColorStop(1,hexA(t.acc,0));x.fillStyle=g;x.fillRect(0,0,W,H);
+  var g2=x.createRadialGradient(0,H,0,0,H,W);g2.addColorStop(0,hexA(t.acc,.16));g2.addColorStop(1,hexA(t.acc,0));x.fillStyle=g2;x.fillRect(0,0,W,H);
+  x.textBaseline='alphabetic';
+  /* header */
+  x.textAlign='left';x.fillStyle=t.text;x.font='800 46px '+FONT;x.fillText('ΣTΣЯПITY',P,y+42);
+  var bw=x.measureText('ΣTΣЯПITY').width;
+  x.font='600 26px '+FONT;x.fillText((c.mode==='q'?'Queen Minus':'Normal')+'  ·  '+N+' players  ·  '+c.total+' rounds  ·  '+fmt(elapsed(c)),P,y+88);
+  x.textAlign='right';x.fillText(new Date().toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}),W-P,y+42);
+  y+=110;
+  /* winner */
+  rr(x,P,y,W-2*P,230,32);x.fillStyle=t.card2;x.fill();x.lineWidth=3;x.strokeStyle=hexA(t.acc,.7);x.stroke();
+  x.textAlign='center';x.fillStyle=t.acc;x.font='800 28px '+FONT;x.fillText('♛  '+(win.length>1?'TIE':'WINNER')+'  ♛',W/2,y+62);
+  x.fillStyle=t.text;var wn=fitText(x,win.join(' & '),W-2*P-80,78,'800');x.fillText(wn,W/2,y+148);
+  x.fillStyle=t.mut;x.font='700 34px '+FONT;x.fillText(max+' points',W/2,y+200);
+  y+=258;
+  /* leaderboard */
+  order.forEach(function(i,k){
+    var ry=y+k*84,rank=1+tot.filter(function(v){return v>tot[i]}).length,top=rank===1;
+    rr(x,P,ry,W-2*P,72,22);x.fillStyle=t.card2;x.fill();
+    if(top){x.lineWidth=2.5;x.strokeStyle=hexA(t.acc,.7);x.stroke()}
+    x.beginPath();x.arc(P+46,ry+36,24,0,6.2832);x.fillStyle=top?t.acc:hexA(t.text,.18);x.fill();
+    x.textAlign='center';x.fillStyle=top?t.onacc:t.text;x.font='800 26px '+FONT;x.fillText(String(rank),P+46,ry+45);
+    x.textAlign='left';x.fillStyle=t.text;var nm=fitText(x,c.names[i],560,32,'700');x.fillText(nm,P+92,ry+46);
+    x.textAlign='right';x.font='800 36px '+FONT;x.fillStyle=top?t.acc:t.text;x.fillText(String(tot[i]),W-P-30,ry+48);
+  });
+  y+=N*84+28;
+  /* rounds table */
+  x.textAlign='left';x.fillStyle=t.mut;x.font='800 22px '+FONT;x.fillText('ROUND BY ROUND',P,y+26);
+  y+=46;
+  x.textAlign='center';
+  c.names.forEach(function(n,i){x.fillStyle=t.text;var hn=fitText(x,n,CW-18,26,'700');x.fillText(hn,P+LW+CW*i+CW/2,y+40)});
+  x.fillStyle=hexA(t.text,.16);x.fillRect(P,y+60,W-2*P,2);
+  y+=64;
+  c.rounds.forEach(function(r,ri){
+    var ry=y+ri*78,su=SUITS[r.trump];
+    x.textAlign='left';x.fillStyle=t.mut;x.font='700 26px '+FONT;x.fillText('R'+(ri+1),P+8,ry+44);
+    x.fillStyle=su[2]?'#ee4558':t.text;x.font='700 32px '+FONT;x.fillText(su[0],P+76,ry+46);
+    r.sc.forEach(function(sv,i){
+      var cx=P+LW+CW*i+CW/2;
+      x.textAlign='center';x.font='800 34px '+FONT;x.fillStyle=sv>=0?posC:negC;x.fillText((sv>0?'+':'')+sv,cx,ry+38);
+      x.fillStyle=t.mut;var sb=fitText(x,'bid '+r.bids[i]+' · won '+r.tricks[i]+(r.queen===i?' · Q−13':''),CW-12,19,'600');x.fillText(sb,cx,ry+64);
+    });
+    x.fillStyle=hexA(t.text,.08);x.fillRect(P,ry+76,W-2*P,2);
+  });
+  y+=rows*78;
+  rr(x,P,y+6,W-2*P,72,22);x.fillStyle=t.card2;x.fill();
+  x.textAlign='left';x.fillStyle=t.mut;x.font='800 24px '+FONT;x.fillText('TOTAL',P+22,y+52);
+  x.textAlign='center';
+  tot.forEach(function(v,i){x.font='800 40px '+FONT;x.fillStyle=v===max?t.acc:t.text;x.fillText(String(v),P+LW+CW*i+CW/2,y+56)});
+  y+=84;
+  x.fillStyle=t.mut;x.font='600 22px '+FONT;x.fillText('ΣTΣЯПITY',W/2,y+44);
+  return cv;
+}
+function resultBlob(cb){try{buildCanvas().toBlob(function(b){cb(b)},'image/jpeg',.92)}catch(e){cb(null)}}
+function resName(){var d=new Date(),p=function(n){return n<10?'0'+n:''+n};return 'ETERNITY_Result_'+d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'.jpg'}
+function saveJpg(){
+  if(!S.cb||!S.cb.done)return;
+  resultBlob(function(b){
+    if(!b){toast('Could not create the image',1);return}
+    var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=resName();a.style.display='none';document.body.appendChild(a);a.click();
+    setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000);toast('Downloading result image');
+  });
+}
+function shareJpg(){
+  if(!S.cb||!S.cb.done)return;
+  resultBlob(function(b){
+    if(!b){toast('Could not create the image',1);return}
+    try{var f=new File([b],resName(),{type:'image/jpeg'});
+      if(CAN_SHARE&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'ΣTΣЯПITY result'}).catch(function(){});return}}catch(e){}
+    saveJpg();
+  });
+}
+
+/* ---------- actions ---------- */
+function act(a,d){
+  var u=S.su,c=S.cb,i;
+  switch(a){
+    case 'back':showGame();break;
+    case 'new':openSetup();break;
+    case 'su':{var f=d.f,v=d.v;if(f==='n'){setPlayers(+v);break}if(f==='rule')u.rule=v==='free'?'free':+v;else if(f==='mode')u.mode=v;else u[f]=+v;render(false);break}
+    case 'sumin':u.mins[+d.i]=clamp(u.mins[+d.i]+ +d.d,0,CARDS[u.n]);render(false);break;
+    case 'start':startGame();break;
+    case 'trump':c.trump=+d.v;buzz();render(false);break;
+    case 'bid':i=+d.i;c.bids[i]=clamp(c.bids[i]+ +d.d,c.mins[i],TT(c));bumpId='n'+i;buzz();render(false);break;
+    case 'trk':{i=+d.i;var T1=TT(c),oth1=c.tricks.reduce(function(a,b){return a+b},0)-c.tricks[i],nv=c.tricks[i]+ +d.d;
+      if(nv>T1-oth1){toast('Total tricks cannot be more than '+T1,1);break}
+      c.tricks[i]=Math.max(0,nv);bumpId='n'+i;buzz();render(false);break}
+    case 'auto':{var T2=TT(c),n2=c.names.length-1,oth2=c.tricks.reduce(function(a,b){return a+b},0)-c.tricks[n2];c.tricks[n2]=clamp(T2-oth2,0,T2);bumpId='n'+n2;buzz();render(false);toast('Last player auto-filled: '+c.tricks[n2]);break}
+    case 'queen':c.queen=c.queen===+d.i?null:+d.i;buzz();render(false);break;
+    case 'lock':if(c.trump==null){toast('Mark the trump suit first',1);break}c.phase='res';c.tricks=c.names.map(function(){return 0});c.queen=null;render(false);break;
+    case 'save':cbSave();break;
+    case 'undo':cbUndo();break;
+    case 'showwin':cbWin();break;
+    case 'resume':togglePause();break;
+    case 'jpg':saveJpg();break;
+    case 'share':shareJpg();break;
+  }
+}
+app.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b||!app.contains(b))return;act(b.dataset.act,b.dataset)});
+app.addEventListener('input',function(e){
+  var t=e.target;if(!t.dataset||t.dataset.bind!=='name')return;
+  var i=+t.dataset.i;
+  S.su.names[i]=t.value;
+  var lab=t.value.trim()||('Player '+(i+1)),dl=document.getElementById('dl'+i),mn=document.getElementById('mn'+i);
+  if(dl)dl.textContent=lab;if(mn)mn.textContent=lab;
+});
+
+/* ---------- PWA, language, music ---------- */
+var installPrompt=null, musicCtx=null, musicTimer=null, musicOsc=[], localMusicUrl=null;
+(function setupManifest(){try{var manifest={name:'ΣTΣЯПITY',short_name:'ΣTΣЯПITY',start_url:location.href,display:'standalone',background_color:'#0a0a0d',theme_color:'#0a0a0d',description:'ΣTΣЯПITY scorecard',icons:[{src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#15151b"/><text x="256" y="300" font-size="180" text-anchor="middle" fill="#ff4d4d">ΣT</text></svg>'),sizes:'512x512',type:'image/svg+xml'}]};var blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});var link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link)}catch(e){}})();
+var LANG=localStorage.getItem('eternity_lang')||'en';
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installPrompt=e;});
+var HINGLISH={
+'Current game':'Abhi ka game','New game':'Naya game','About':'Jaankari','Game Rules':'Game ke rules','About / Developer':'App aur developer','Install & Offline':'Install aur offline','Music Studio':'Music studio','Music studio':'Music studio','Language: English':'Language: English','Sound: On':'Sound: On','Sound: Off':'Sound: Off',
+'Choose a theme':'Theme chuno','All looks are here — use the palette button in the top-right any time.':'Saare themes yahan hain — kabhi bhi top-right palette button use karo.','New game':'Naya game','Choose the game type, add players and set the rules. You can change the names every time a new game starts.':'Game type chuno, players add karo aur rules set karo. Har naye game mein names badal sakte ho.','How many players?':'Kitne players?','Game type':'Game ka type','Normal':'Normal','Queen Minus':'Queen Minus','Whoever gets the Queen of the trump suit gets -13 points that round':'Jis player ko trump suit ki Queen milegi, us round mein -13 points milenge.','Standard scoring':'Normal scoring','Players':'Players','Enter players in seating order. The next name in the list sits on the dealer\'s right.':'Players ko baithne ke order mein likho. List ka agla naam dealer ke right mein hoga.','First dealer':'Pehla dealer','Rounds':'Rounds','Minimum bid rule':'Minimum bid ka rule','At least 1':'Kam se kam 1','Every player must bid 1 or more':'Har player ko 1 ya usse zyada bid karna hoga','At least 2':'Kam se kam 2','Every player must bid 2 or more':'Har player ko 2 ya usse zyada bid karna hoga','Free choice':'Apni marzi','Each player picks their own minimum':'Har player apna minimum choose karega','From round 1, the bid box shows this minimum every round and cannot go below it.':'Round 1 se har round mein bid box ye minimum dikhayega aur isse neeche nahi ja sakta.','Start game':'Game shuru karo','Back to game':'Game par wapas','Start a new game? Your current unfinished game will be replaced.':'Naya game shuru karein? Abhi ka adhura game replace ho jayega.',
+'Round':'Round','Dealer':'Dealer','Cuts and deals next':'Agla cut/deal','Trump suit':'Trump suit','Mark after shuffle & cut':'Shuffle aur cut ke baad mark karo','Enter tricks won':'Jeeti hui tricks dalo','Enter bids':'Bids dalo','Assigned':'Total diya','Total bids':'Total bids','Points':'Points','Auto fill':'Auto fill','Who got it?':'Queen kisko mili?','No fine':'Fine nahi','Nobody':'Kisi ko nahi','Undo':'Undo','Save round':'Round save karo','Lock bids':'Bids lock karo','Rounds':'Rounds','Game over':'Game khatam','Winner:':'Winner:','Time':'Samay','Download JPG':'JPG download karo','Share':'Share karo','Show winner':'Winner dikhao','Undo last round':'Pichhla round undo karo','New game':'Naya game','Game paused':'Game pause hai','Timer stopped. Your game is saved on this device.':'Timer ruk gaya hai. Game isi device par save hai.','Resume':'Resume karo','Min bid:':'Min bid:','Normal scoring':'Normal scoring','Mark the trump suit first':'Pehle trump suit mark karo','Select who got the Queen of trump':'Trump ki Queen kisko mili select karo','Round saved':'Round save ho gaya','Last round reopened. Edit the results.':'Pichhla round dobara khul gaya. Results edit karo.','Back to bids. You can edit them.':'Bids par wapas. Ab edit kar sakte ho.','Nothing to undo':'Undo karne ke liye kuch nahi',
+'Basics':'Basic rules','Players and cards:':'Players aur cards:','Dealer:':'Dealer:','Trump:':'Trump:','Bidding:':'Bid karna:','Tricks:':'Tricks:','Scoring':'Scoring','Made exactly your bid:':'Bilkul utni tricks jeeti jitni bid ki:','One extra trick:':'Ek extra trick:','Two extra tricks:':'Do extra tricks:','More than two extra tricks, or fewer tricks than your bid:':'Do se zyada extra tricks ya bid se kam tricks:','Game type (chosen at the start)':'Game type (shuru mein choose hota hai)','Minimum bid rule (chosen at the start)':'Minimum bid rule (shuru mein choose hota hai)','Winner and undo':'Winner aur undo','At least 1':'Kam se kam 1','At least 2':'Kam se kam 2','every player must bid 1 or more':'har player ko 1 ya zyada bid karna hai','every player must bid 2 or more':'har player ko 2 ya zyada bid karna hai','every player gets their own minimum, any value from 0 to 13':'har player ka apna minimum, 0 se 13 tak','Send feedback':'Feedback bhejo','Send a suggestion / report a bug':'Suggestion bhejo / bug report karo','Choose what you want to send. Your email address will be included so the developer can reply.':'Kya bhejna hai chuno. Developer reply kar sake isliye aapka email include hoga.','What do you need?':'Aap kya bhejna chahte ho?','Bug report':'Bug report','Add features':'Naye features','Other suggestion':'Doosra suggestion','Your email address':'Aapka email address','Details (optional)':'Details (optional)','Tell me what happened or what you would like…':'Kya issue hua ya kya feature chahiye, likho…','Continue to Gmail':'Gmail par aage badho','This opens a pre-filled Gmail draft addressed to the developer. For privacy and spam protection, the app cannot send email silently; you must press Send in Gmail.':'Isse developer ke naam ka Gmail draft khulega. Privacy ke liye app khud se email send nahi kar sakta; Gmail mein Send dabana hoga.',
+'About':'Jaankari','a lightweight scorecard with customizable themes and local game history.':'ek lightweight scorecard jisme themes customize aur game history save kar sakte ho.','A message from the developer':'Developer ka message','Thanks for using ΣTΣЯПITY. I built it to make scorekeeping simple, fun and beautiful. Your feedback helps shape future improvements.':'ΣTΣЯПITY use karne ke liye shukriya. Isse score rakhna simple, fun aur stylish banane ke liye banaya gaya hai. Aapka feedback future improvements mein help karega.','Use the feedback form to contact the developer.':'Developer se contact karne ke liye feedback form use karo.','Install & Offline':'Install aur Offline','Install app':'App install karo','Offline use':'Offline use','Music is optional and turned off by default. Normal game sound effects keep working. Enable optional winner music below, or preview a track manually.':'Music optional hai aur default mein off hai. Normal game sound effects chalte rahenge. Winner music enable karo ya track preview karo.','Enable music for winner celebrations':'Winner celebration ke liye music on karo','Playing-time music':'Game khelte waqt music','Winning moment':'Jeetne ke waqt music','10 built-in generated tracks':'10 built-in generated tracks','Add your own winning sound or music:':'Apna winning sound ya music add karo:','Play':'Play','Stop':'Stop','Music mode':'Music mode','Classic, Almond, Dynamic Aura, Cinema Red, Prime Blue and Liquid Glass themes':'Classic, Almond, Dynamic Aura, Cinema Red, Prime Blue aur Liquid Glass themes','English and Hinglish menu options':'English aur Hinglish language options','Install prompt and offline-use guidance':'Install aur offline use ki guidance',
+'2 to 5 players, chosen when the game starts, with a standard 52-card deck. 2 players: 26 cards each. 3 players: 17 cards each, 1 extra card set aside. 4 players: 13 cards each. 5 players: 10 cards each, 2 extra cards removed.':'Game shuru karte waqt 2 se 5 players chuno. Standard deck mein 52 cards hote hain. 2 players: har ek ko 26 cards. 3 players: 17 cards har ek ko, 1 extra card side mein. 4 players: 13 cards har ek ko. 5 players: 10 cards har ek ko, 2 extra cards hata diye jaate hain.',
+'The player who shuffles is the dealer. The player on the dealer\'s right cuts the cards and becomes the next dealer. This repeats every round. In this app, list players in seating order; the next name in the list is the player on the dealer\'s right.':'Jo cards shuffle karta hai woh dealer hota hai. Dealer ke right wala player cards cut karta hai aur agla dealer banta hai. Ye har round repeat hota hai. App mein players ko baithne ke order mein list karo; agla naam dealer ke right wala player hai.',
+'The trump suit is decided every round after the cards are shuffled and cut. Mark it in the':'Har round cards shuffle aur cut hone ke baad trump suit decide hota hai. Isse ',
+'section before locking the bids.':' section mein bids lock karne se pehle mark karo.',
+'After seeing their cards, every player bids how many tricks (hands) they expect to win.':'Cards dekhne ke baad har player bid karta hai ki kitni tricks (hands) jeetne ki umeed hai.',
+'The tricks won by all players must add up to the cards each player holds: 26 (2 players), 17 (3), 13 (4) or 10 (5). While entering what each player made, the app never lets the total go above this. The last player has an Auto fill button that puts in whatever is left.':'Sab players ki jeeti hui tricks ka total cards ke hisaab se hona chahiye: 2 players mein 26, 3 mein 17, 4 mein 13 ya 5 mein 10. Results enter karte waqt app total ko isse zyada nahi hone deta. Aakhri player ke paas Auto fill button hai jo baaki number bhar deta hai.',
+'Made exactly your bid:':'Bilkul apni bid jitni tricks jeeti:',
+'One extra trick:':'Ek extra trick:',
+'Two extra tricks:':'Do extra tricks:',
+'More than two extra tricks, or fewer tricks than your bid:':'Do se zyada extra tricks, ya bid se kam tricks:',
+'A bid of 0 (free choice only) scores 0 plus 1 or 2 for one or two tricks won, and 0 otherwise.':'0 ki bid (sirf Free choice mein) par score 0 hota hai; 1 ya 2 tricks jeetne par +1 ya +2 milta hai, warna 0.',
+'Normal:':'Normal:',
+'scoring exactly as above.':'upar diye gaye scoring rules ke mutabik points milte hain.',
+'Whoever gets the Queen of the trump suit in that round gets a fine of':'Jis player ko us round trump suit ki Queen milti hai uske points mein ',
+'points added to their points for that round. Mark who got the Queen in the result step before saving the round. With 3 or 5 players the Queen of trump may be among the cards left out; then choose Nobody and no fine is applied.':' points ki penalty lagti hai. Round save karne se pehle results step mein Queen lene wale player ko mark karo. 3 ya 5 players mein Queen side mein rakhe cards mein ho sakti hai; aise mein Nobody chuno aur penalty nahi lagegi.',
+'every player must bid 1 or more.':'har player ko 1 ya zyada bid karna hoga.',
+'every player must bid 2 or more.':'har player ko 2 ya zyada bid karna hoga.',
+'each player gets their own minimum, any value from 0 to 13.':'har player ka apna minimum hota hai, 0 se 13 tak.',
+'In every round the bid box opens at that minimum and cannot go below it.':'Har round mein bid box us minimum se shuru hota hai aur usse neeche nahi ja sakta.',
+'After the chosen number of rounds, the highest total wins. Ties are shared.':'Chune gaye rounds ke baad sabse zyada total score wala jeetta hai. Tie hone par winner share hota hai.',
+'steps back: results go back to bids, and a saved round reopens with its bids, results, trump and Queen so you can edit them.':'se ek step peeche jaate hain: results dobara bids par aate hain. Saved round bids, results, trump aur Queen ke saath phir khulta hai, taaki edit kar sako.',
+'tap the timer at the top to pause or resume. A paused game is locked and the timer stops. The game is saved on this device, so if you close the page you can come back, press Resume and continue from the same round.':'pause ya resume karne ke liye upar timer tap karo. Pause hone par game lock hota hai aur timer rukta hai. Game isi device par save hota hai; page band karke wapas aao, Resume dabao aur usi round se continue karo.',
+'when the game ends, tap Download JPG to save the final result and share it.':'game khatam hone par Download JPG tap karke final result save aur share karo.',
+'Enter your Gmail address':'Apna email address dalo',
+'Please enter your Gmail address':'Please enter your email address',
+'Keyboard shortcuts:':'Keyboard shortcuts','Esc closes dialogs/menus; use the menu for New Game, Rules, Themes, Music and Install.':'Esc se dialog/menu band hota hai; New Game, Rules, Themes, Music aur Install ke liye menu use karo.',
+'2 to 5 players, bids, tricks, trump suit and Queen Minus mode':'2 se 5 players, bids, tricks, trump suit aur Queen Minus mode','Round history, totals, undo, pause/resume and saved games':'Round history, totals, undo, pause/resume aur saved games','Winner celebration, result image sharing and standard sound effects':'Winner celebration, result image sharing aur normal sound effects','Optional local music upload; music is off by default':'Local music upload optional hai; music default mein off hai','Scores and settings stay in this browser on this device.':'Scores aur settings isi device ke browser mein save rehte hain.','Built with plain HTML, CSS and JavaScript. No account required.':'Plain HTML, CSS aur JavaScript se bana hai. Account ki zaroorat nahi.','Install the scorecard on your device for an app-like experience. Your scores are saved locally in this browser.':'App jaisa experience paane ke liye scorecard device par install karo. Scores isi browser mein save hote hain.','If the install button is unavailable, open your browser menu and choose “Install app” or “Add to Home screen”.':'Agar install button nahi dikhe, browser menu kholkar “Install app” ya “Add to Home screen” chuno.','Open the page once while online. Scoring and saved games work locally, but full offline launch depends on browser caching or a service worker supplied by the website host. A standalone index.html cannot register a reliable same-origin service worker by itself.':'Page ko online hote hue ek baar kholo. Scoring aur saved games locally kaam karte hain, lekin poora offline launch browser cache ya website host ke service worker par depend karta hai. Single index.html apne aap reliable same-origin service worker register nahi kar sakti.','For dependable offline installation, host this page over HTTPS and add a service worker. This single-file build saves scores locally and can be installed where the browser supports its generated app manifest; browser/PWA offline rules vary.':'Reliable offline install ke liye page ko HTTPS par host karke service worker add karo. Ye single-file build scores locally save karta hai aur supported browser mein install ho sakta hai; offline rules browser ke hisaab se badalte hain.','Choose a generated background track or add your own audio file from this device. Uploaded audio stays local and is not sent anywhere.':'Generated background track chuno ya is device se apni audio file add karo. Uploaded audio local rehta hai, kahin send nahi hota.','Tip: browser audio requires a tap to start. Generated tracks are synthesized in your browser.':'Tip: browser audio shuru karne ke liye tap zaroori hai. Generated tracks browser mein hi bante hain.',
+'2 players: 26 cards each. 3 players: 17 cards each, 1 extra card set aside. 4 players: 13 cards each. 5 players: 10 cards each, 2 extra cards removed.':'2 players: har ek ko 26 cards. 3 players: 17 cards har ek ko, 1 extra card side mein. 4 players: har ek ko 13 cards. 5 players: har ek ko 10 cards, 2 extra cards hata diye jaate hain.',
+'In this app, list players in seating order; the next name in the list is the player on the dealer\'s right.':'App mein players ko baithne ke order mein likho; list ka agla naam dealer ke right wala player hai.',
+'While entering what each player made, the app never lets the total go above this. The last player has an Auto fill button that puts in whatever is left.':'Results bharte waqt app total ko isse zyada nahi hone deta. Aakhri player ka Auto fill button bacha hua number bhar deta hai.',
+'One extra trick: <b>(bid &times; 10) + 1</b>. Two extra tricks: <b>(bid &times; 10) + 2</b>.':'Ek extra trick: <b>(bid &times; 10) + 1</b>. Do extra tricks: <b>(bid &times; 10) + 2</b>.',
+'More than two extra tricks, or fewer tricks than your bid: <b>&minus;(bid &times; 10)</b>.':'Do se zyada extra tricks, ya bid se kam tricks: <b>&minus;(bid &times; 10)</b>.',
+'One extra trick: <b>(bid &times; 10) + 1</b>. Two extra tricks: <b>(bid &times; 10) + 2</b>.':'Ek extra trick: <b>(bid &times; 10) + 1</b>. Do extra tricks: <b>(bid &times; 10) + 2</b>.',
+'Bid 5, tricks won':'Bid 5, jeeti hui tricks','Points':'Points','8 or more':'8 ya zyada','4 or fewer':'4 ya kam','Nobody and no fine is applied.':'Nobody chuno aur penalty nahi lagegi.',
+'Choose what you want to send. Your email address will be included so the developer can reply.':'Kya bhejna hai chuno. Developer reply kar sake isliye aapka email include hoga.',
+'No account required.':'Account ki zaroorat nahi.','Add your own winning sound or music:':'Apna winning sound ya music add karo:'
+};
+function tr(s){if(LANG!=='hi')return s;return HINGLISH[s]||s}
+function translateHtml(h){if(LANG!=='hi')return h;var keys=Object.keys(HINGLISH).sort(function(a,b){return b.length-a.length});keys.forEach(function(k){var v=HINGLISH[k];h=h.split(k).join(v)});return h}
+function toggleLanguage(){LANG=LANG==='en'?'hi':'en';localStorage.setItem('eternity_lang',LANG);$('#langBtn').textContent='Language: '+(LANG==='en'?'Language: English':'Language: Hinglish');$('#langBtn').textContent=LANG==='en'?'Language: English':'Language: Hinglish';render(false);if($('#modal').classList.contains('on')){var title=$('#mTitle').textContent;var body=$('#mBody').innerHTML;$('#mTitle').textContent=tr(title);$('#mBody').innerHTML=translateHtml(body)}toast(LANG==='en'?'Language set to English':'Hinglish language on')}
+
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null}musicOsc.forEach(function(o){try{o.stop()}catch(e){}});musicOsc=[];if(musicCtx){try{musicCtx.close()}catch(e){}musicCtx=null}var a=$('#localAudio');if(a)a.pause();}
+function playGeneratedTrack(track,mode){stopMusic();var AC=window.AudioContext||window.webkitAudioContext;if(!AC){toast('Audio is not supported in this browser',1);return}musicCtx=new AC();var ctx=musicCtx;var patterns=[[261,329,392,523],[110,165,220,330],[220,247,294,370],[196,247,294,392],[174,220,262,349],[146,196,247,293],[262,330,392,494],[330,392,494,659],[147,185,220,294],[392,494,587,784]];var notes=patterns[track]||patterns[0],idx=0;function note(){if(!musicCtx)return;var o=ctx.createOscillator(),g=ctx.createGain();o.type=track%2?'triangle':'sine';o.frequency.value=notes[idx%notes.length]*(mode==='win'?1.5:1);g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.08,ctx.currentTime+.04);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.32);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.34);musicOsc.push(o);idx++}note();musicTimer=setInterval(note,mode==='win'?180:360);if(mode==='win')setTimeout(stopMusic,7000);}
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='musicEnabled'){S.musicEnabled=e.target.checked;save();toast(S.musicEnabled?'Winner music enabled':'Winner music off; normal sound effects remain on');}});
+document.addEventListener('submit',function(e){if(e.target&&e.target.id==='suggestForm'){e.preventDefault();var type=$('#suggestType').value,email=$('#suggestEmail').value.trim(),details=$('#suggestDetails').value.trim();if(!email){toast('Please enter your email address',1);return;}var subject='ΣTΣЯПITY — '+type;var body='Feedback type: '+type+'\nReply email: '+email+'\n\nDetails:\n'+(details||'(No extra details)');var recipient=['iamhk','sah'].join('.')+'@gmail.com';var url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(recipient)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);window.open(url,'_blank','noopener');toast('Gmail draft opened — press Send in Gmail');}});
+document.addEventListener('click',function(e){
+ if(e.target&&e.target.id==='installPwa'){if(installPrompt){installPrompt.prompt();installPrompt.userChoice.then(function(r){toast(r.outcome==='accepted'?'App installation accepted':'Installation dismissed');installPrompt=null})}else{var el=$('#pwaStatus');if(el)el.textContent='No install prompt is available yet. Use the browser menu → Install app / Add to Home screen, and serve the page over HTTPS.';toast('Use browser menu to install');} }
+ if(e.target&&e.target.id==='shareApp'){if(navigator.share)navigator.share({title:'ΣTΣЯПITY',text:'ΣTΣЯПITY',url:location.href}).catch(function(){});else{try{navigator.clipboard.writeText(location.href);toast('App link copied')}catch(_){toast('Copy the page URL from your browser')}}}
+ if(e.target&&e.target.id==='playMusic'){var f=$('#localMusic'),mode=$('#musicMode').value;if(f&&f.files&&f.files[0]){var audio=$('#localAudio');if(localMusicUrl)URL.revokeObjectURL(localMusicUrl);localMusicUrl=URL.createObjectURL(f.files[0]);audio.src=localMusicUrl;audio.loop=mode==='play';audio.play().catch(function(){toast('Tap play on the audio player to start music')});}else playGeneratedTrack(+$('#trackSelect').value,mode);}
+ if(e.target&&e.target.id==='stopMusic')stopMusic();
+});
+document.addEventListener('change',function(e){if(e.target&&e.target.id==='localMusic'&&e.target.files[0]){var a=$('#localAudio');if(localMusicUrl)URL.revokeObjectURL(localMusicUrl);localMusicUrl=URL.createObjectURL(e.target.files[0]);a.src=localMusicUrl;}});
+
+/* ---------- chrome events ---------- */
+$('#menuBtn').addEventListener('click',function(){document.body.classList.contains('menu')?closeDrawer():openDrawer()});
+$('#scrim').addEventListener('click',closeDrawer);
+$('#themeBtn').addEventListener('click',function(){closeDrawer();themeModal()});
+$('#timer').addEventListener('click',togglePause);
+document.addEventListener('click',function(e){
+  var m=e.target.closest('[data-m]');
+  if(m){var a=m.dataset.m;closeDrawer();
+    if(a==='game')showGame();
+    else if(a==='new')openSetup();
+    else if(a==='about')openModal('About',aboutHtml());
+    else if(a==='rules')openModal('Game Rules',rulesHtml());
+    else if(a==='dev')openModal('About / Developer',aboutHtml()+'<hr>'+devHtml());
+    else if(a==='suggest')openModal('Send feedback',suggestionHtml());
+    else if(a==='pwa')openModal('Install & Offline',pwaHtml());
+    else if(a==='music')openModal('Music Studio',musicHtml());
+    else if(a==='language')toggleLanguage();
+    else if(a==='sound'){S.sound=!S.sound;render(false);toast('Sound '+(S.sound?'on':'off'))}
+    else if(a==='close')closeModal();
+    return;}
+  var th=e.target.closest('[data-th]');
+  if(th){applyTheme(th.dataset.th);save();document.querySelectorAll('[data-th]').forEach(function(b){b.classList.toggle('on',b.dataset.th===S.theme)});drawerThemes();return}
+  if(e.target.id==='modal')closeModal();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();closeDrawer();closeWin()}});
+
+applyTheme(S.theme);
+$('#langBtn').textContent=LANG==='en'?'Language: English':'Language: Hinglish';
+drawerThemes();
+if(S.view==='cb'&&S.cb)resume(S.cb);
+render();
+wake();
+})();
+</script>
+</body>
+</html>
