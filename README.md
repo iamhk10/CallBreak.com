@@ -59,3 +59,30 @@ A lightweight, offline-first, single-file digital scorecard web application for 
   * `navigator.share` & `navigator.canShare` (native image sharing)
   * `navigator.vibrate` (tactile UI feedback)
   
+---
+
+## 📸 Screenshots
+
+| Setup Screen | Active Game & Bidding | Themes & Result |
+| :---: | :---: | :---: |
+| ![Setup Screen](screenshot/setup.png) | ![Active Game](screenshot/game.png) | ![Result Card](screenshot/result.png) |
+
+---
+
+## 🌐 More Projects & Websites
+
+Check out some of my other websites and projects:
+
+| Project / Website | Description | Live Link |
+| :--- | :--- | :--- |
+| **Project 1 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-1.com) |
+| **Project 2 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-2.com) |
+| **Project 3 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-3.com) |
+
+---
+
+## 👤 Author & Connect
+
+* **Portfolio:** [your-portfolio.com](https://your-portfolio.com)
+* **GitHub:** [@your-username](https://github.com/your-username)
+* 
