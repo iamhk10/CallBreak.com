@@ -88,8 +88,8 @@ Check out some of my other websites and projects:
 | Project / Website | Description | Live Link |
 | :--- | :--- | :--- |
 | **CallBreak Scorecard** | Offline-first digital scorecard for Callbreak (v8). | [🔗 Live Demo](https://callbreakcom.vercel.app/) |
-| **MovieTracker** | Brief one-line description of your second website. | [🔗 Visit Website](https://seemydairy.vercel.app/) |
-| **PayMatePro** | Brief one-line description of your third website. | [🔗 Visit Website](https://paymatepro.vercel.app/) |
+| **MovieTracker** | This is a movie, webseries tracking site where you can keep your movies data. | [🔗 Visit Website](https://seemydairy.vercel.app/) |
+| **PayMate** | With its help, you can easily distribute expenses among your friends or in a group. | [🔗 Visit Website](https://paymatepro.vercel.app/) |
 
 ---
 
