@@ -65,7 +65,7 @@ A lightweight, offline-first, single-file digital scorecard web application for 
 
 ## 🔗 Live Demo
 
-Play or use the scorecard live here: **[callbreakcom-five.vercel.app](https://callbreakcom-five.vercel.app)**
+Play or use the scorecard live here: **[callbreak.com](https://callbreakcom.vercel.app/)**
 
 ---
 
@@ -87,9 +87,9 @@ Check out some of my other websites and projects:
 
 | Project / Website | Description | Live Link |
 | :--- | :--- | :--- |
-| **CallBreak Scorecard** | Offline-first digital scorecard for Callbreak (v8). | [🔗 Live Demo](https://callbreakcom-five.vercel.app) |
-| **Project 2 Name** | Brief one-line description of your second website. | [🔗 Visit Website](https://your-second-website.vercel.app) |
-| **Project 3 Name** | Brief one-line description of your third website. | [🔗 Visit Website](https://your-third-website.vercel.app) |
+| **CallBreak Scorecard** | Offline-first digital scorecard for Callbreak (v8). | [🔗 Live Demo](https://callbreakcom.vercel.app/) |
+| **MovieTracker** | Brief one-line description of your second website. | [🔗 Visit Website](https://seemydairy.vercel.app/) |
+| **PayMatePro** | Brief one-line description of your third website. | [🔗 Visit Website](https://paymatepro.vercel.app/) |
 
 ---
 
