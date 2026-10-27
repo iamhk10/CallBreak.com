@@ -61,11 +61,23 @@ A lightweight, offline-first, single-file digital scorecard web application for 
   
 ---
 
+---
+
+## 🔗 Live Demo
+
+Play or use the scorecard live here: **[callbreakcom-five.vercel.app](https://callbreakcom-five.vercel.app)**
+
+---
+
 ## 📸 Screenshots
 
-| Setup Screen | Active Game & Bidding | Themes & Result |
+| Screenshot 1 | Screenshot 2 | Screenshot 3 |
 | :---: | :---: | :---: |
-| ![Setup Screen](screenshot/setup.png) | ![Active Game](screenshot/game.png) | ![Result Card](screenshot/result.png) |
+| ![Screenshot 1](screenshot/1000046153.png) | ![Screenshot 2](screenshot/1000046154.png) | ![Screenshot 3](screenshot/1000046155.png) |
+
+| Screenshot 4 | Screenshot 5 | Screenshot 6 |
+| :---: | :---: | :---: |
+| ![Screenshot 4](screenshot/1000046156.png) | ![Screenshot 5](screenshot/1000046157.png) | ![Screenshot 6](screenshot/1000046158.png) |
 
 ---
 
@@ -75,14 +87,14 @@ Check out some of my other websites and projects:
 
 | Project / Website | Description | Live Link |
 | :--- | :--- | :--- |
-| **Project 1 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-1.com) |
-| **Project 2 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-2.com) |
-| **Project 3 Name** | Brief one-line description of what this website does. | [🔗 Visit Website](https://your-website-3.com) |
+| **CallBreak Scorecard** | Offline-first digital scorecard for Callbreak (v8). | [🔗 Live Demo](https://callbreakcom-five.vercel.app) |
+| **Project 2 Name** | Brief one-line description of your second website. | [🔗 Visit Website](https://your-second-website.vercel.app) |
+| **Project 3 Name** | Brief one-line description of your third website. | [🔗 Visit Website](https://your-third-website.vercel.app) |
 
 ---
 
 ## 👤 Author & Connect
 
-* **Portfolio:** [your-portfolio.com](https://your-portfolio.com)
-* **GitHub:** [@your-username](https://github.com/your-username)
-* 
+* **Author:** ΣTΣЯПITY (`@iamhk10`)
+* **GitHub:** [github.com/iamhk10](https://github.com/iamhk10)
+
