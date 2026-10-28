@@ -1,20 +1,12 @@
 /* ΣTΣЯПITY PWA service worker
- * Pre-caches the app shell for offline launch. Bump VERSION when releasing changes.
+ * Caches the app shell and optional music tracks for offline use.
+ * Keep sw.js, index.html, and t1.mp3 ... t10.mp3 in the same folder.
  */
-const VERSION = 'eternity-v1.3.0';
+const VERSION = 'eternity-music-v1.0.1';
+
 const APP_SHELL = [
   './',
   './index.html',
-  './t1.mp3',
-  './t2.mp3',
-  './t3.mp3',
-  './t4.mp3',
-  './t5.mp3',
-  './t6.mp3',
-  './t7.mp3',
-  './t8.mp3',
-  './t9.mp3',
-  './t10.mp3',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/favicon.svg',
@@ -27,41 +19,59 @@ const APP_SHELL = [
   './icons/favicon-16.png'
 ];
 
+const MUSIC_FILES = [
+  './t1.mp3', './t2.mp3', './t3.mp3', './t4.mp3', './t5.mp3',
+  './t6.mp3', './t7.mp3', './t8.mp3', './t9.mp3', './t10.mp3'
+];
+
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(VERSION)
-      .then(cache => Promise.all(APP_SHELL.map(path =>
-        cache.add(new Request(path, {cache: 'reload'})).catch(() => null)
-      )))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(VERSION);
+
+    // Cache each file separately: a missing optional icon or MP3 must not
+    // prevent the service worker from installing.
+    await Promise.all([...APP_SHELL, ...MUSIC_FILES].map(async path => {
+      try {
+        const response = await fetch(new Request(path, { cache: 'reload' }));
+        if (response.ok) await cache.put(path, response);
+      } catch (_) {
+        // The file may be optional or unavailable during installation.
+      }
+    }));
+
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key.startsWith('eternity-') && key !== VERSION).map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys
+      .filter(key => key.startsWith('eternity-') && key !== VERSION)
+      .map(key => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
+
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
+  // App navigation: network first, cached app shell if offline.
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
         const response = await fetch(request);
         if (response && response.ok) {
           const cache = await caches.open(VERSION);
-          cache.put('./index.html', response.clone()).catch(() => {});
+          await cache.put('./index.html', response.clone()).catch(() => {});
         }
         return response;
-      } catch (error) {
-        return (await caches.match(request, {ignoreSearch: true}))
+      } catch (_) {
+        return (await caches.match(request, { ignoreSearch: true }))
           || (await caches.match('./index.html'))
           || (await caches.match('./'))
           || Response.error();
@@ -70,34 +80,25 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for bundled MP3s so winning tracks work offline.
-  if (url.pathname.includes('/audio/') && /\\.mp3$/i.test(url.pathname)) {
+  const isMusic = /\/t(?:10|[1-9])\.mp3$/i.test(url.pathname);
+  const isStaticAsset = url.pathname.includes('/icons/')
+    || url.pathname.endsWith('/manifest.webmanifest');
+
+  // Music and static assets: cache first, then network. Newly fetched files
+  // are cached so tracks that were missing during installation can be saved.
+  if (isMusic || isStaticAsset) {
     event.respondWith((async () => {
-      const cached = await caches.match(request, {ignoreSearch: true});
+      const cached = await caches.match(request, { ignoreSearch: true });
       if (cached) return cached;
+
       try {
         const response = await fetch(request);
         if (response && response.ok) {
-          (await caches.open(VERSION)).put(request, response.clone()).catch(() => {});
+          const cache = await caches.open(VERSION);
+          await cache.put(request, response.clone()).catch(() => {});
         }
         return response;
-      } catch (error) {
-        return Response.error();
-      }
-    })());
-    return;
-  }
-
-  // Cache-first for the manifest and app icons; use the network as a fallback.
-  if (url.pathname.includes('/icons/') || url.pathname.endsWith('/manifest.webmanifest')) {
-    event.respondWith((async () => {
-      const cached = await caches.match(request, {ignoreSearch: true});
-      if (cached) return cached;
-      try {
-        const response = await fetch(request);
-        if (response && response.ok) (await caches.open(VERSION)).put(request, response.clone()).catch(() => {});
-        return response;
-      } catch (error) {
+      } catch (_) {
         return Response.error();
       }
     })());
