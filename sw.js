@@ -20,8 +20,16 @@ const APP_SHELL = [
 ];
 
 const MUSIC_FILES = [
-  './t1.mp3', './t2.mp3', './t3.mp3', './t4.mp3', './t5.mp3',
-  './t6.mp3', './t7.mp3', './t8.mp3', './t9.mp3', './t10.mp3'
+  './audio/t1.mp3',
+  './audio/t2.mp3',
+  './audio/t3.mp3',
+  './audio/t4.mp3',
+  './audio/t5.mp3',
+  './audio/t6.mp3',
+  './audio/t7.mp3',
+  './audio/t8.mp3',
+  './audio/t9.mp3',
+  './audio/t10.mp3'
 ];
 
 self.addEventListener('install', event => {
