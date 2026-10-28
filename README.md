@@ -1,4 +1,4 @@
-# ΣTΣЯПITY - Digital Scorecard (v8)
+# ΣTΣЯПITY - Digital Scorecard
 
 A lightweight, offline-first, single-file digital scorecard web application for the trick-taking card game **ΣTΣЯПITY**. Built entirely with vanilla HTML, CSS, and JavaScript, it runs directly in any modern browser without external libraries, servers, ads, or tracking.
 
