@@ -20,7 +20,7 @@ const APP_SHELL = [
 ];
 
 const MUSIC_FILES = [
-  './audio/Shreya Ghoshal.mp3', './audio/Alan Walker.mp3', './audio/English x Hindi.mp3', './audio/THE WEEKND.mp3', './audio/Phonk.mp3',
+  './audio/Shreya Ghoshal.mp3', './audio/Alan Walker.mp3', './audio/Mashup.mp3', './audio/The Weeknd.mp3', './audio/Phonk.mp3',
   './audio/FUNK.mp3', './audio/Dhandha Nyoliwala.mp3', './audio/Raaz.mp3', './audio/Punjabi.mp3', './audio/Pawan Singh.mp3'
 ];
 
