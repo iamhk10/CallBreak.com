@@ -20,7 +20,7 @@ const APP_SHELL = [
 ];
 
 const MUSIC_FILES = [
-  './Kalyani X Shreya Ghoshal.mp3', './audio/Alan Walker.mp3', './audio/English x Hindi.mp3', './audio/t4.mp3', './audio/t5.mp3',
+  './audio/Shreya Ghoshal.mp3', './audio/Alan Walker.mp3', './audio/English x Hindi.mp3', './audio/t4.mp3', './audio/t5.mp3',
   './audio/Ram Siya Ram.mp3', './audio/t7.mp3', './audio/t8.mp3', './audio/t9.mp3', './audio/t10.mp3'
 ];
 
