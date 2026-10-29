@@ -21,7 +21,7 @@ const APP_SHELL = [
 
 const MUSIC_FILES = [
   './Kalyani X Shreya Ghoshal.mp3', './audio/t2.mp3', './audio/t3.mp3', './audio/t4.mp3', './audio/t5.mp3',
-  './audio/t6.mp3', './audio/t7.mp3', './audio/t8.mp3', './audio/t9.mp3', './audio/t10.mp3'
+  './audio/Ram Siya Ram.mp3', './audio/t7.mp3', './audio/t8.mp3', './audio/t9.mp3', './audio/t10.mp3'
 ];
 
 self.addEventListener('install', event => {
